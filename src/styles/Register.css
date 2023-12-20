@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure the page fills at least the viewport height */
+}
+
+.signup-container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%; /* Adjust the width as needed */
+    max-width: 400px; /* Set a maximum width if desired */
+}
+
+h2 {
+    color: #333; /* Darker text color */
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2E7D32; /* Darker green background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-to-login {
+    color: #3498db;
+    margin-top: 10px;
+    cursor: pointer;
+}

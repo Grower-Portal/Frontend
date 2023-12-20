@@ -1,0 +1,16 @@
+/* SignOut.css */
+
+.signout-button {
+    position: fixed; /* Fixed position */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    width: auto;
+    padding: 10px 20px;
+    background-color: #2E7D32; /* Green background color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* High z-index to ensure it's above other elements */
+  }
+  
