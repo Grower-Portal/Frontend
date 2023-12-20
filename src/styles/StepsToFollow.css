@@ -1,31 +1,18 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
+/* StepsToFollow.css */
 
-h1 {
-    margin-top: 20px;
-    color: #2E7D32;
+.steps-to-follow {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
 }
 
 #steps-container {
-    margin-top: 20px;
-    width: 80%;
-    max-width: 600px;
-    padding: 20px;
-    border: 2px solid #2E7D32;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    list-style-type: decimal;
+    margin-left: 20px;
 }
 
-.step {
-    margin-bottom: 10px;
+#steps-container li {
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 1.5;
 }
