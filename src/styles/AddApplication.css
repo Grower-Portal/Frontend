@@ -72,3 +72,68 @@
 .add-remove-button:hover {
   background-color: #e2e2e2;
 }
+
+/* AddApplication.css - Add these styles to your existing CSS file */
+
+.form-screen {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.farm-entry, .tract-entry {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.farm-entry {
+  background-color: #f4f4f4;
+}
+
+.tract-entry {
+  background-color: #e9e9e9;
+  margin-left: 20px;
+}
+
+.clu-input {
+  display: block;
+  margin: 5px 0;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input[type="text"] {
+  width: 95%;
+  padding: 5px;
+}
+
+button {
+  margin-top: 5px;
+  padding: 5px 10px;
+  background-color: #2E7D32;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #276629;
+}
+
