@@ -1,72 +1,74 @@
-/* Add to Dashboard.css or a new CSS file */
+/* AddApplication.css */
 
-/* General form styling */
+/* General Styles for the Form Container */
 .form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    max-width: 600px;
-    margin: 20px auto;
-  }
-  
-  .form-title {
-    color: #2E7D32;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-label {
-    display: block;
-    margin-top: 10px;
-    color: #333;
-    font-size: 16px;
-  }
-  
-  .form-input, .form-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .form-textarea {
-    height: 100px;
-    resize: vertical;
-  }
-  
-  .form-button {
-    background-color: #2E7D32;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    width: 100%;
-  }
-  
-  .form-button:hover {
-    background-color: #276629;
-  }
-  
-  /* Add more styles as needed */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
 
-  .submission-message {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f4f4f4; /* Light gray background */
-    color: #2E7D32; /* Dark green text color for visibility */
-    text-align: center;
-    font-size: 16px;
-    border: 1px solid #2E7D32;
-  }
-  
-  /* Optionally, you can add a hover effect or animation */
-  .submission-message:hover {
-    background-color: #e2e2e2; /* Slightly darker on hover */
-  }
-  
+.form-title {
+  color: #2E7D32; /* Consistent with your color scheme */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styles for Each Input Group (Farm, Tract, CLU) */
+.input-group {
+  margin-bottom: 15px;
+}
+
+/* Styles for Labels */
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Styles for Input Fields */
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Button Styles */
+.form-button {
+  background-color: #2E7D32; /* Green background color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block; /* Full width */
+  width: 100%;
+  margin-top: 10px;
+}
+
+.form-button:hover {
+  background-color: #276629; /* Slightly darker green */
+}
+
+/* Add and Remove Buttons within the Form */
+.add-remove-button {
+  background-color: #f4f4f4;
+  color: #333;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-remove-button:hover {
+  background-color: #e2e2e2;
+}
