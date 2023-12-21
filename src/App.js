@@ -10,7 +10,7 @@ import UserInformation from './pages/UserInformation';
 import SensorData from './pages/SensorData';
 import ContactUs from './pages/ContactUs';
 import Report from './pages/Report';
-import AddApplication from './pages/AddApplication';
+import AddApplication from './forms/AddApplication/AddApplication';
 
 
 

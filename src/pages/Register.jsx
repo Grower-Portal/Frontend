@@ -90,6 +90,7 @@ function Register() {
                 />
 
                 <button type="button" onClick={verifyEmail}>Verify Email</button>
+                <button type="button" onClick={verifyEmail}>Sign Up</button>
             </form>
             <Link to="/SignIn" className="back-to-login">Back to Login</Link>
         </div>
