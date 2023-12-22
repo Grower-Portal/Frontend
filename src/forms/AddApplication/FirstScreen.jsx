@@ -1,8 +1,19 @@
 import React from 'react';
 
-function FirstScreen({ farms, setFarms, onNext }) {
+function FirstScreen({ farms, setFarms, onPrevious, onNext }) {
     const addFarm = () => {
-        setFarms([...farms, { farmNumber: '', tracts: [{ tractNumber: '', clus: [''] }] }]);
+        setFarms([...farms, { 
+            farmNumber: '', 
+            tracts: [{
+                tractNumber: '', 
+                clus: [''], 
+                fieldName: '',
+                rptQty: '', 
+                fsaLocation: '',
+                commodityCategory: 'Crops', 
+                commodityType: 'Rice'
+            }] 
+        }]);
     };
 
     const removeFarm = (farmIndex) => {
@@ -12,15 +23,25 @@ function FirstScreen({ farms, setFarms, onNext }) {
 
     const addTract = (farmIndex) => {
         const newFarms = [...farms];
-        newFarms[farmIndex].tracts.push({ tractNumber: '', clus: [''] });
+        newFarms[farmIndex].tracts.push({ 
+            tractNumber: '', 
+            clus: [''], 
+            fieldName: '',
+            rptQty: '', 
+            fsaLocation: '',
+            commodityCategory: 'Crops', 
+            commodityType: 'Rice'
+        });
         setFarms(newFarms);
     };
 
     const removeTract = (farmIndex, tractIndex) => {
         const newFarms = farms.map((farm, index) => {
             if (index === farmIndex) {
-                const newTracts = farm.tracts.filter((_, tIndex) => tIndex !== tractIndex);
-                return { ...farm, tracts: newTracts };
+                return {
+                    ...farm,
+                    tracts: farm.tracts.filter((_, tIndex) => tIndex !== tractIndex)
+                };
             }
             return farm;
         });
@@ -39,14 +60,15 @@ function FirstScreen({ farms, setFarms, onNext }) {
         setFarms(newFarms);
     };
 
-    const handleChange = (e, farmIndex, tractIndex, cluIndex) => {
+    const handleChange = (e, farmIndex, tractIndex, field) => {
         const newFarms = [...farms];
-        if (tractIndex === undefined) {
+        if (field === 'farmNumber') {
             newFarms[farmIndex].farmNumber = e.target.value;
-        } else if (cluIndex === undefined) {
-            newFarms[farmIndex].tracts[tractIndex].tractNumber = e.target.value;
-        } else {
+        } else if (field.includes('clu')) {
+            const cluIndex = parseInt(field.split('_')[1]);
             newFarms[farmIndex].tracts[tractIndex].clus[cluIndex] = e.target.value;
+        } else {
+            newFarms[farmIndex].tracts[tractIndex][field] = e.target.value;
         }
         setFarms(newFarms);
     };
@@ -59,77 +81,114 @@ function FirstScreen({ farms, setFarms, onNext }) {
                     <tr>
                         <th>Farm Number</th>
                         <th>Tract Number</th>
-                        <th>CLU ID</th>
+                        <th>Field</th>
+                        <th>Field Name</th>
+                        <th>RPT Qty (Acres)</th>
+                        <th>FSA Physical Location</th>
+                        <th>Commodity Category</th>
+                        <th>Commodity Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {farms.map((farm, farmIndex) => (
                         <React.Fragment key={farmIndex}>
-                            {farm.tracts.length === 0 ? (
-                                <tr>
+                            {farm.tracts.map((tract, tractIndex) => (
+                                <tr key={`${farmIndex}-${tractIndex}`}>
+                                    {tractIndex === 0 && (
+                                        <td rowSpan={farm.tracts.length || 1}>
+                                            <input 
+                                                type="text"
+                                                value={farm.farmNumber}
+                                                onChange={(e) => handleChange(e, farmIndex, null, 'farmNumber')}
+                                            />
+                                            <button onClick={() => removeFarm(farmIndex)}>Remove Farm</button>
+                                        </td>
+                                    )}
                                     <td>
                                         <input 
-                                            type="text"
-                                            value={farm.farmNumber}
-                                            onChange={(e) => handleChange(e, farmIndex)}
+                                            type="text" 
+                                            value={tract.tractNumber}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'tractNumber')}
                                         />
-                                        <button onClick={() => removeFarm(farmIndex)}>Remove Farm</button>
                                     </td>
-                                </tr>
-                            ) : (
-                                farm.tracts.map((tract, tractIndex) => (
-                                    <tr key={`${farmIndex}-${tractIndex}`}>
-                                        {tractIndex === 0 && (
-                                            <td rowSpan={farm.tracts.length}>
+                                    <td>
+                                        {tract.clus.map((clu, cluIndex) => (
+                                            <div key={cluIndex}>
                                                 <input 
-                                                    type="text"
-                                                    value={farm.farmNumber}
-                                                    onChange={(e) => handleChange(e, farmIndex)}
-                                                />
-                                                <button onClick={() => removeFarm(farmIndex)}>Remove Farm</button>
-                                            </td>
-                                        )}
-                                        <td>
-                                            <input 
-                                                type="text" 
-                                                value={tract.tractNumber}
-                                                onChange={(e) => handleChange(e, farmIndex, tractIndex)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {tract.clus.map((clu, cluIndex) => (
-                                                <input 
-                                                    key={cluIndex}
                                                     type="text" 
                                                     value={clu}
-                                                    onChange={(e) => handleChange(e, farmIndex, tractIndex, cluIndex)}
+                                                    onChange={(e) => handleChange(e, farmIndex, tractIndex, `clu_${cluIndex}`)}
                                                 />
-                                            ))}
-                                            <button onClick={() => addClu(farmIndex, tractIndex)}>Add CLU</button>
-                                            {tract.clus.length > 0 && <button onClick={() => removeClu(farmIndex, tractIndex, tract.clus.length - 1)}>Remove Last CLU</button>}
-                                        </td>
-                                        <td>
-                                            <button onClick={() => removeTract(farmIndex, tractIndex)}>Remove Tract</button>
-                                        </td>
-                                    </tr>
-                                    
-                                ))
-                            )}
+                                                <button onClick={() => removeClu(farmIndex, tractIndex, cluIndex)}>Remove Field</button>
+                                            </div>
+                                        ))}
+                                        <button onClick={() => addClu(farmIndex, tractIndex)}>Add Field</button>
+                                    </td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            value={tract.fieldName}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'fieldName')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input 
+                                            type="number" 
+                                            value={tract.rptQty}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'rptQty')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            value={tract.fsaLocation}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'fsaLocation')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <select 
+                                            value={tract.commodityCategory}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'commodityCategory')}>
+                                            <option value="Crops">Crops</option>
+                                            {/* Additional commodity category options */}
+                                            <option value="livestock">Livestock</option>
+                                            <option value="trees">Trees</option>
+                                            <option value="crops-livestock">Crops and Livestock</option>
+                                            <option value="crops-trees">Crops and Trees</option>
+                                            <option value="livestock-trees">Livestock and Trees</option>
+                                            <option value="crops-livestock-trees">Crops, Livestock and Trees</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select 
+                                            value={tract.commodityType}
+                                            onChange={(e) => handleChange(e, farmIndex, tractIndex, 'commodityType')}>
+                                            <option value="Rice">Rice</option>
+                                            <option value="Not rice; crop ineligible">Not rice; crop ineligible</option>
+                                            {/* Additional commodity type options */}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => removeTract(farmIndex, tractIndex)}>Remove Tract</button>
+                                    </td>
+                                </tr>
+                            ))}
                             <tr>
-                                <td colSpan="4">
+                                <td colSpan="9">
                                     <button onClick={() => addTract(farmIndex)}>Add Tract to Farm {farmIndex + 1}</button>
                                 </td>
                             </tr>
                         </React.Fragment>
                     ))}
                     <tr>
-                        <td colSpan="4">
+                        <td colSpan="9">
                             <button onClick={addFarm}>Add New Farm</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <button onClick={onPrevious}>Previous</button>
             <button onClick={onNext}>Next</button>
         </div>
     );
