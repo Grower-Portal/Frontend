@@ -6,11 +6,16 @@ function Register() {
     const [firstname, setFirstName] = useState('');
     const [lastname, setLastName] = useState('');
     const [dob, setDob] = useState('');
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState(''); 
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const handleChange = (event) => {
+        const input = event.target.value.replace(/\D/g, '');
+        const formattedInput = input.substring(0, 3) + (input.length >= 4 ? '-' : '') + input.substring(3, 6) + (input.length >= 7 ? '-' : '') + input.substring(6, 10);
+        setPhoneNumber(formattedInput);
+      };
 
     const verifyEmail = () => {
         // Placeholder for email verification logic
@@ -45,12 +50,12 @@ function Register() {
                     onChange={(e) => setDob(e.target.value)}
                     required 
                 />
-                <label htmlFor="create-username">Create Username:</label>
+                <label htmlFor="enter-email">Enter Email:</label>
                 <input 
-                    type="text" 
-                    id="create-username" 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email" 
+                    id="enter-email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
                     required 
                 />
 
@@ -72,14 +77,18 @@ function Register() {
                     required 
                 />
 
-                <label htmlFor="enter-email">Enter Email:</label>
-                <input 
-                    type="email" 
-                    id="enter-email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    required 
-                />
+                <label htmlFor="us-phone">Phone Number:</label><br />
+                    <input
+                        type="tel"
+                        id="us-phone"
+                        name="us-phone"
+                        value={phoneNumber}
+                        onChange={handleChange}
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                        placeholder="123-456-7890"
+                    />
+                    <small>Format: 123-456-7890</small><br />
+                
                 <label htmlFor="address">Address:</label>
                 <input 
                     type="text" 
