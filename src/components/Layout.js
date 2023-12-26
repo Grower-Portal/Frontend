@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Menu from '../components/Menu';
 import '../styles/Menu.css';
 import SignOut from './SignOut';
+import Help from './Help';
+import Logo from './Logo';
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,8 +16,9 @@ function Layout({ children }) {
   return (
     <>
     {/* SignOut button will be fixed to the top-right of the viewport */}
+      <Logo />
       <SignOut />
-
+      <Help helpText="Enter the name of the field." />
       {/* Other layout content, like a navigation menu, goes here */}
       <div id="menu-button" className={menuOpen ? 'open' : ''} onClick={toggleMenu}>
         <span className="menu-bar"></span>

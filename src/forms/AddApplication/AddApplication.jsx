@@ -3,6 +3,9 @@ import ScreenZero from './ScreenZero';
 import FirstScreen from './FirstScreen';
 import SecondScreen from './SecondScreen';
 import ScreenThree from './ThirdScreen';
+import ScreenFour from './FourthScreen';
+import ScreenFive from './ScreenFive';
+import ScreenSix from './ScreenSix';
 // Import other screen components as needed
 import '../../styles/AddApplication.css';
 import Layout from '../../components/Layout';
@@ -63,9 +66,39 @@ function AddApplication() {
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
                         // Assuming no next screen after ScreenThree
+                        onNext={goToNextScreen}
                     />
                 )}
+                {currentScreen === 4 && (
+                    <ScreenFour
+                        farms={farms}
+                        setFarms={setFarms}
+                        onPrevious={goToPreviousScreen}
+                        onNext={goToNextScreen}
+                        // Assuming no next screen after ScreenThree
+                    />
+                )}
+                {currentScreen === 5 && (
+                    <ScreenFive
+                        farms={farms}
+                        setFarms={setFarms}
+                        onPrevious={goToPreviousScreen}
+                        onNext={goToNextScreen}
+                        // Assuming no next screen after ScreenThree
+                    />
+                )}
+                {currentScreen === 6 && (
+                    <ScreenSix
+                        farms={farms}
+                        setFarms={setFarms}
+                        onPrevious={goToPreviousScreen}
+
+                        // Assuming no next screen after ScreenThree
+                    />
+                )}
+                
                 {/* Add more screens as needed */}
+                
             </div>
         </Layout>
     );

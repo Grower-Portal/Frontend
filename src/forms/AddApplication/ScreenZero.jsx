@@ -46,7 +46,12 @@ function ScreenZero({ producerInfo, setProducerInfo, onNext }) {
                     value={producerInfo.underservedStatus || ''}
                     onChange={(e) => handleChange(e, 'underservedStatus')}>
                     {/* Dropdown options */}
-                    <option value="?">?undefined</option>
+                    <option value="Yes, underserved">Yes, underserved</option>
+                    <option value="Yes, small producer">Yes, small producer</option>
+                    <option value="Yes, underserved and small producer">Yes, underserved and small producer</option>
+                    <option value="No">No</option>
+                    <option value="I don't know">I don't know</option>
+
                 </select>
             </div>
             <div className="form-group">

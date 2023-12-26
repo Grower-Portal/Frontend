@@ -9,8 +9,9 @@ function Menu({ menuOpen, toggleMenu }) {
                 <h2 style={{ color: '#2E7D32' , fontWeight: 'bold'}}>MENU</h2>
                 <ul>
                     <li><Link to="/StepsToFollow" onClick={toggleMenu}>Steps to Follow</Link></li>
-                    <li><Link to="/Dashboard" onClick={toggleMenu}>Dashboard</Link></li>
+                    <li><Link to="/Application+Dashboard" onClick={toggleMenu}>Dashboard</Link></li>
                     <li><Link to="/AddApplication" onClick={toggleMenu}>Add Application</Link></li>
+                    <li><Link to="/Dashboard" onClick={toggleMenu}>Upload Photo</Link></li>
                     <li><Link to="/About" onClick={toggleMenu}>About</Link></li>
                     <li><Link to="/ContactUs" onClick={toggleMenu}>Contact Us</Link></li>
                     <li><Link to="/Report" onClick={toggleMenu}>Report</Link></li>

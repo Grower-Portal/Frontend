@@ -1,0 +1,47 @@
+
+
+.container {
+    width: 90%;
+    margin: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .status {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .btn {
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-edit {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  
+  .btn-resubmit {
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  .btn-add {
+    background-color: #0275d8;
+    color: white;
+  }
+  

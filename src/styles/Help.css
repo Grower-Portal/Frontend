@@ -1,0 +1,36 @@
+/* CSS for the Help component */
+.help-container {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    right: 20px; /* Adjust the distance from the right as needed */
+    background-color: #23eb23; /* Background color for the question mark icon */
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 999; /* Ensure it's above other content */
+  }
+  
+  .help-icon {
+    font-size: 20px;
+    line-height: 1;
+  }
+  
+  .help-popover {
+    position: absolute;
+    bottom: 30px; /* Adjust the distance from the bottom as needed */
+    right: -10px; /* Adjust the distance from the right as needed */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    max-width: 200px; /* Adjust the maximum width as needed */
+    display: none; /* Initially hidden */
+  }
+  
+  /* Show the help popover when the help icon is clicked */
+  .help-container:hover .help-popover {
+    display: block;
+  }
+  

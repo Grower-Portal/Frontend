@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-function ScreenThree({ farms, setFarms, onPrevious }) {
+function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
     const [showHelp, setShowHelp] = useState(false);
-    const [submissionMessage, setSubmissionMessage] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    
 
     const handleChange = (e, farmIndex, tractIndex, fieldName) => {
         const updatedFarms = [...farms];
@@ -15,21 +14,6 @@ function ScreenThree({ farms, setFarms, onPrevious }) {
         setShowHelp(!showHelp);
     };
 
-    const handleSubmit = () => {
-        const confirmMessage = "Submit Application means you have checked every detail you have entered in the application, and you are confirming the details are true in nature. Do you want to submit the application?";
-        const isConfirmed = window.confirm(confirmMessage);
-        if (isConfirmed) {
-            onSubmit(); // You can pass the farms data to this function if needed
-        }
-    };
-
-    const onSubmit = () => {
-        // Logic to handle the actual submission, e.g., sending data to a server
-        // After successful submission:
-        setSubmissionMessage("Application Submitted for Verification and Approval");
-        setIsSubmitted(true);  // Update the submission state
-    };
-
 
     return (
         <div className="form-screen">
@@ -37,8 +21,8 @@ function ScreenThree({ farms, setFarms, onPrevious }) {
             <table>
                 <thead>
                     <tr>
-                        <th>Farm Number</th>
-                        <th>Field Name</th>
+                        <th>Farm ID</th>
+                        <th>Field ID</th>
                         <th>Field CSAF Practice History</th>
                         <th>Past CSAF Practice History</th>
                     </tr>
@@ -83,9 +67,8 @@ function ScreenThree({ farms, setFarms, onPrevious }) {
                     ))}
                 </tbody>
             </table>
-            {submissionMessage && <div className="submission-message">{submissionMessage}</div>}
-            {!isSubmitted && <button onClick={onPrevious}>Previous</button>}
-            {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
+            <button onClick={onPrevious}>Previous</button>
+            <button className="button" onClick={onNext}>Next</button>
         </div>
     );
 }

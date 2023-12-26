@@ -12,7 +12,7 @@ function SignIn() {
         let passwordInput = document.getElementById("password").value;
 
         if (usernameInput === "Admin" && passwordInput === "Southern_Admin") {
-            navigate('/Dashboard');
+            navigate('/Application+Dashboard');
         } else {
             alert('Invalid username or password. Please try again.');
         }

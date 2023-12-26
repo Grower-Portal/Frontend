@@ -11,6 +11,7 @@ import SensorData from './pages/SensorData';
 import ContactUs from './pages/ContactUs';
 import Report from './pages/Report';
 import AddApplication from './forms/AddApplication/AddApplication';
+import ApplicationDashboard from './pages/ApplicationDashboard';
 
 
 
@@ -54,6 +55,7 @@ function App() {
           <Route path='/ContactUs' element={<ContactUs />} />
           <Route path='/Report' element={<Report />} />
           <Route path='AddApplication' element={<AddApplication />} />
+          <Route path='Application+Dashboard' element={<ApplicationDashboard/>} />
         </Routes>
       </div>
     </Router>
