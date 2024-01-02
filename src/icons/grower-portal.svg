@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.73 141.1">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b67b2b;
+        font-size: 48px;
+      }
+
+      .cls-2 {
+        font-family: TimesNewRomanPS-BoldMT, 'Times New Roman';
+        font-weight: 700;
+      }
+
+      .cls-3 {
+        fill: #821636;
+        font-size: 36px;
+      }
+
+      .cls-4 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #bfb8ba;
+        font-size: 70px;
+      }
+
+      .cls-6 {
+        fill: #317e3d;
+        font-size: 90px;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(0 74.79)"><tspan class="cls-6" x="0" y="0">G</tspan><tspan class="cls-4" x="70" y="0">r</tspan><tspan class="cls-5" x="99.81" y="0">ower</tspan><tspan class="cls-1" x="247.5" y="0">P</tspan><tspan class="cls-3" x="276.82" y="0">ortal</tspan></text>
+</svg>

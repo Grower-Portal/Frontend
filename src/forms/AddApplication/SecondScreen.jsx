@@ -14,7 +14,7 @@ function ScreenTwo({ farms, setFarms, onPrevious, onNext }) {
                 <thead>
                     <tr>
                         <th>Farm ID</th>
-                        <th>Field ID</th>
+                        <th>Field Name</th>
                         <th>Field Land Use History</th>
                         <th>Field Irrigation History</th>
                         <th>Field Tillage History</th>

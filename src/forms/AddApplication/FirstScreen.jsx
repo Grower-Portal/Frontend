@@ -88,7 +88,7 @@ function FirstScreen({ onPrevious, onNext }) {
       <div className="container">
         <table id="farmTable">
           <thead>
-            <tr>
+            <tr className='row-container'>
               <th>Farm ID</th>
               <th>Tract ID</th>
               <th>Field ID</th>

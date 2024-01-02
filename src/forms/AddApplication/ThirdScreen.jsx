@@ -22,7 +22,7 @@ function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
                 <thead>
                     <tr>
                         <th>Farm ID</th>
-                        <th>Field ID</th>
+                        <th>Field Name</th>
                         <th>Field CSAF Practice History</th>
                         <th>Past CSAF Practice History</th>
                     </tr>
