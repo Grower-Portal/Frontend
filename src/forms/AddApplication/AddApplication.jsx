@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import ScreenZero from './ScreenZero';
 import FirstScreen from './FirstScreen';
+import SubSecondScreen from './SubSecondScreen';
 import SecondScreen from './SecondScreen';
 import ScreenThree from './ThirdScreen';
 import ScreenFour from './FourthScreen';
 import ScreenFive from './ScreenFive';
 import ScreenSix from './ScreenSix';
-// Import other screen components as needed
-import '../../styles/AddApplication.css';
 import Layout from '../../components/Layout';
+import '../../styles/AddApplication.css';
 
 function AddApplication() {
     const [currentScreen, setCurrentScreen] = useState(0); // Start from ScreenZero
@@ -53,6 +53,14 @@ function AddApplication() {
                     />
                 )}
                 {currentScreen === 2 && (
+                    <SubSecondScreen
+                        farms={farms} 
+                        setFarms={setFarms} 
+                        onPrevious={goToPreviousScreen}
+                        onNext={goToNextScreen} 
+                    />
+                )}
+                {currentScreen === 3 && (
                     <SecondScreen
                         farms={farms}
                         setFarms={setFarms}
@@ -60,7 +68,7 @@ function AddApplication() {
                         onNext={goToNextScreen} 
                     />
                 )}
-                {currentScreen === 3 && (
+                {currentScreen === 4 && (
                     <ScreenThree
                         farms={farms}
                         setFarms={setFarms}
@@ -69,7 +77,7 @@ function AddApplication() {
                         onNext={goToNextScreen}
                     />
                 )}
-                {currentScreen === 4 && (
+                {currentScreen === 5 && (
                     <ScreenFour
                         farms={farms}
                         setFarms={setFarms}
@@ -78,7 +86,7 @@ function AddApplication() {
                         // Assuming no next screen after ScreenThree
                     />
                 )}
-                {currentScreen === 5 && (
+                {currentScreen === 6 && (
                     <ScreenFive
                         farms={farms}
                         setFarms={setFarms}
@@ -87,7 +95,7 @@ function AddApplication() {
                         // Assuming no next screen after ScreenThree
                     />
                 )}
-                {currentScreen === 6 && (
+                {currentScreen === 7 && (
                     <ScreenSix
                         farms={farms}
                         setFarms={setFarms}

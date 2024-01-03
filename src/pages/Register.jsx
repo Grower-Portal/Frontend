@@ -172,12 +172,15 @@ function Register() {
         const userData = {
             firstName: formValues.firstname,
             lastName: formValues.lastname,
+            middlename: formValues.middlename,
+            suffix: formValues.suffix,
             dateOfBirth: formValues.dob.toISOString().split('T')[0], // Format date as "YYYY-MM-DD"
-            username: formValues.email, // You can set this to any appropriate value
+            //username: formValues.email, // You can set this to any appropriate value
             password: formValues.password,
             confirmPassword: formValues.confirmPassword,
             email: formValues.email,
             address: formValues.address,
+            phoneNumber: formValues.phoneNumber,
         };
     
         // Make an HTTP POST request to the verification endpoint

@@ -39,6 +39,8 @@ function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
                                     <select 
                                         value={tract.csafPracticeHistory || "I don't know"}
                                         onChange={(e) => handleChange(e, farmIndex, tractIndex, 'csafPracticeHistory')}>
+                                        <option value="yes">yes</option>
+                                        <option value="no">no</option>
                                         <option value="I don't know">I don't know</option>
                                         {/* Additional options as needed */}
                                     </select>

@@ -48,8 +48,13 @@ function ScreenTwo({ farms, setFarms, onPrevious, onNext }) {
                                     <select 
                                         value={tract.irrigationHistory || ''}
                                         onChange={(e) => handleChange(e, farmIndex, tractIndex, 'irrigationHistory')}>
-                                        <option value=""></option>
                                         {/* Additional options as needed */}
+                                        <option value="No Irrigation">No Irrigation</option>
+                                        <option defaultValue="Flood/border">Flood/border</option>
+                                        <option value="Furrow/ditch">Furrow/ditch</option>
+                                        <option value="Surface">Surface</option>
+                                        <option value="Wheel Line">Wheel Line</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </td>
                                 <td>
