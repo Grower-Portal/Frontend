@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ScreenSix({ farms, onPrevious, onNext }) {
+function ScreenSix({ farms, onPrevious, onNext, onReview }) {
   const [forestInfo, setForestInfo] = useState({
     totalForestArea: '',
     fsaPhysicalLocation: '',
@@ -50,6 +50,11 @@ function ScreenSix({ farms, onPrevious, onNext }) {
     // After successful submission:
     setSubmissionMessage("Application Submitted for Verification and Approval");
     setIsSubmitted(true); // Update the submission state
+  };
+
+    // Use onNext in place of handleReview
+    const handleReviewClick = () => {
+      onReview(); // This function should be provided by the parent component
   };
 
   return (
@@ -115,7 +120,7 @@ function ScreenSix({ farms, onPrevious, onNext }) {
         <div className="submission-message">{submissionMessage}</div>
       )}
       {!isSubmitted && <button onClick={handlePrevious}>Previous</button>}
-      <button onClick={handleNext}>Next</button>
+      {!isSubmitted && <button onClick={handleReviewClick}>Review Application</button>} 
       {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
     </div>
   );

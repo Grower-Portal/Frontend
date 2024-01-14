@@ -7,11 +7,20 @@ import ScreenThree from './ThirdScreen';
 import ScreenFour from './FourthScreen';
 import ScreenFive from './ScreenFive';
 import ScreenSix from './ScreenSix';
+import ReviewApplication from './ReviewApplication'; // Adjust the path as necessary
+
 import Layout from '../../components/Layout';
 import '../../styles/AddApplication.css';
 
 function AddApplication() {
-    const [currentScreen, setCurrentScreen] = useState(0); // Start from ScreenZero
+    const [currentScreen, setCurrentScreen] = useState(0); 
+    const [isReviewing, setIsReviewing] = useState(false);
+
+
+    const [forestInfo, setForestInfo] = useState({
+        // Initial state for forest info
+    });
+    // Start from ScreenZero
     const [producerInfo, setProducerInfo] = useState({
         producerName: '',
         entityName: '',
@@ -23,6 +32,9 @@ function AddApplication() {
         csafPractices: ''
     });
     const [farms, setFarms] = useState([{ farmNumber: '', tracts: [{ tractNumber: '', clus: [''] }] }]);
+    const [fieldHistories, setFieldHistories] = useState({ /* ... */ });
+    const [csafPracticeHistories, setCsafPracticeHistories] = useState({ /* ... */ });
+    const [livestockInfo, setLivestockInfo] = useState({ /* ... */ });
 
     // Navigate to the next screen
     const goToNextScreen = () => {
@@ -33,6 +45,12 @@ function AddApplication() {
     const goToPreviousScreen = () => {
         setCurrentScreen(currentScreen - 1);
     };
+
+    const handleReview = () => {
+        setIsReviewing(true);
+        setCurrentScreen(null); // Or another value that doesn't match any screen
+    };
+
 
     return (
         <Layout>
@@ -100,14 +118,27 @@ function AddApplication() {
                         farms={farms}
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
+                        onReview={handleReview}
 
-                        // Assuming no next screen after ScreenThree
+                 
                     />
                 )}
                 
-                {/* Add more screens as needed */}
-                
+
+                {isReviewing && (
+                    <ReviewApplication
+                    producerInfo={producerInfo}
+                    farms={farms}
+                    forestInfo={forestInfo}
+                    fieldHistories={fieldHistories}
+                    csafPracticeHistories={csafPracticeHistories}
+                    livestockInfo={livestockInfo}
+                        // Pass other pieces of state as needed
+                    />
+                )}
             </div>
+
+           
         </Layout>
     );
 }
