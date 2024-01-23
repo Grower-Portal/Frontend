@@ -46,7 +46,9 @@ select {
   margin-bottom: 5px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  width: 100%;
+  width: 192.13px !important; /* Set the width */
+  height: 27.25px !important; /* Set the height */
+  border-radius: 5px; /* Rounded corners */
 }
 
 .input-field[readonly] {
@@ -85,4 +87,9 @@ button:hover {
 .navigation-buttons {
   text-align: right;
   margin-top: 20px;
+}
+
+th {
+  text-align: center;
+  font-size: 14px;
 }

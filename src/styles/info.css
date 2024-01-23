@@ -1,0 +1,36 @@
+/* Info.css */
+
+.info-container {
+  display: flex;
+  align-items: center;
+  position: relative; /* Make the container relative for absolute positioning of tooltip */
+}
+
+.info-label {
+  margin-right: 10px;
+  font-family: Arial, sans-serif;
+  font-size: small;
+}
+
+.info-icon {
+  cursor: pointer;
+}
+
+.info-tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1;
+  top: 0; /* Adjust the top position to align with the icon */
+  left: 100%; /* Position the tooltip to the right of the icon */
+  transform: translateX(5px); /* Add a little horizontal spacing */
+  display: none;
+}
+
+.info-icon:hover + .info-tooltip {
+  display: block;
+}

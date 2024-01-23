@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import ScreenZero from './ScreenZero';
-import FirstScreen from './FirstScreen';
-import SubSecondScreen from './SubSecondScreen';
-import SecondScreen from './SecondScreen';
-import ScreenThree from './ThirdScreen';
-import ScreenFour from './FourthScreen';
-import ScreenFive from './ScreenFive';
-import ScreenSix from './ScreenSix';
+import React, { useState, useEffect } from 'react';
+import ProducerInformation from './ProducerInformation';
+import FarmTractCluForm from './FarmTractCluForm';
+import CommodityInformation from './CommodityInformation';
+import FarmInformation from './FarmInformation';
+import LivestockInformation from './LivestockInformation';
+import ForestInformation from './ForestInformation';
 import Layout from '../../components/Layout';
 import '../../styles/AddApplication.css';
 
@@ -14,16 +12,83 @@ function AddApplication() {
     const [currentScreen, setCurrentScreen] = useState(0); // Start from ScreenZero
     const [producerInfo, setProducerInfo] = useState({
         producerName: '',
-        entityName: '',
+        producerEntityName: '',
         countyOfResidence: '',
         producerAddress: '',
-        underservedStatus: '',
-        baselineYield: '',
-        primaryReason: '',
-        csafPractices: ''
+        isUnderservedSmallProducer: '',
+        baselineYield: 0,
+        primaryReasonForApplying: '',
+        implementedCsafPractices: ''
     });
-    const [farms, setFarms] = useState([{ farmNumber: '', tracts: [{ tractNumber: '', clus: [''] }] }]);
+    const [rows, setRows] = useState([]);
+    const [farms, setFarms] = useState([{ farmNumber: '', tracts: [{ tractNumber: '', clus: [{ fieldClu: '', acres: '', fieldName: '' }] }] }]);
 
+    const [farmIds, setFarmIds] = useState([]);
+    const [fieldNames, setFieldNames] = useState([]);
+
+    const farmNumberToFieldNameMapping = rows.map((row) => {
+        if (row.farmNumber && row.clus.length > 0) {
+            return {
+                farmNumber: row.farmNumber,
+                fieldName: row.clus[0].fieldName,
+                acres: row.clus[0].acres,
+                fsaPhysicalLocation: row.clus[0].fsaPhysicalLocation
+
+            };
+        }
+        return null;
+    }).filter(Boolean);
+
+    console.log("farmNumberToFieldNameMapping", farmNumberToFieldNameMapping);
+    const [commodityForm, setCommodityForm] = useState([]);
+    // [{farmNumber: '', tractNumber: '', clu: '', acres: '', commodityCategory: '', commodityType: '', fieldLandUseHistory: '', fieldIrrigationHistory: '', fieldTillageHistory: '', fieldCsafPracticeHistory: '', pastCsafPracticeHistory: ''}
+    const [farmDetailsForm, setFarmDetailsForm] = useState([]);
+    
+
+    const FarmDetailsData = farmNumberToFieldNameMapping.map((farm) => ({
+        farmNumber: farm.farmNumber,
+        applicationAcres: farm.acres,
+        totalCropland: '',
+        totalLandArea: '',
+        produceLivestock: 'No',
+        livestockType1: '',
+        livestockHead1: '',
+        livestockType2: '',
+        livestockHead2: '',
+        livestockType3: '',
+        livestockHead3: '',
+        totalForestArea: '',
+        fsaPhysicalLocation: farm.fsaPhysicalLocation,
+        pastCSAFPractice: '',
+        uploadedDocument: null, // To store the uploaded document file
+    }));
+    
+    
+   
+   const CommodityData = farmNumberToFieldNameMapping.map((farm) => ({
+        farmNumber: farm.farmNumber,
+        fieldName: farm.fieldName,
+        reportQtyAcres: farm.acres,
+        commodityCategory: '',
+        commodityType: 'Rice',
+        fieldLandUseHistory: '',
+        fieldIrrigationHistory: '',
+        fieldTillageHistory: '',
+        fieldCsafPracticeHistory: '',
+        pastCsafPracticeHistory: ''
+    }))
+
+    
+    const [livestockRows, setLivestockRows] = useState([]);
+    const handleFarmIdsChange = (newFarmIds) => {
+        setFarmIds(newFarmIds);
+    };
+    
+    const handleFieldNamesChange = (newFieldNames) => {
+        setFieldNames(newFieldNames);
+    };
+
+    console.log("farmDetailsForm", farmDetailsForm);
     // Navigate to the next screen
     const goToNextScreen = () => {
         setCurrentScreen(currentScreen + 1);
@@ -38,14 +103,20 @@ function AddApplication() {
         <Layout>
             <div className="add-application-container">
                 {currentScreen === 0 && (
-                    <ScreenZero 
+                    <ProducerInformation 
                         producerInfo={producerInfo} 
                         setProducerInfo={setProducerInfo} 
                         onNext={goToNextScreen} 
                     />
                 )}
                 {currentScreen === 1 && (
-                    <FirstScreen 
+                    <FarmTractCluForm 
+                        //producerInfo={producerInfo}
+                        // setProducerInfo={setProducerInfo} 
+                        rows={rows}
+                        setRows={setRows}
+                        onFarmIdsChange={handleFarmIdsChange}
+                        onFieldNamesChange={handleFieldNamesChange}
                         farms={farms} 
                         setFarms={setFarms} 
                         onPrevious={goToPreviousScreen}
@@ -53,51 +124,39 @@ function AddApplication() {
                     />
                 )}
                 {currentScreen === 2 && (
-                    <SubSecondScreen
-                        farms={farms} 
-                        setFarms={setFarms} 
+                    <CommodityInformation
+                        CommodityData = {CommodityData}
+                        commodityForm={commodityForm}
+                        setCommodityForm={setCommodityForm}
                         onPrevious={goToPreviousScreen}
                         onNext={goToNextScreen} 
                     />
                 )}
                 {currentScreen === 3 && (
-                    <SecondScreen
-                        farms={farms}
-                        setFarms={setFarms}
+                    <FarmInformation
+                        FarmDetailsData = {FarmDetailsData}
+                        farmDetailsForm={farmDetailsForm}
+                        setFarmDetailsForm={setFarmDetailsForm}
                         onPrevious={goToPreviousScreen}
-                        onNext={goToNextScreen} 
+                        onNext={goToNextScreen}
+                        // Assuming no next screen after ScreenThree
                     />
                 )}
                 {currentScreen === 4 && (
-                    <ScreenThree
-                        farms={farms}
-                        setFarms={setFarms}
+                    <LivestockInformation
+                        FarmDetailsData = {FarmDetailsData}
+                        farmDetailsForm={farmDetailsForm}
+                        setFarmDetailsForm={setFarmDetailsForm}
                         onPrevious={goToPreviousScreen}
-                        // Assuming no next screen after ScreenThree
                         onNext={goToNextScreen}
+                        // Assuming no next screen after ScreenThree
                     />
                 )}
                 {currentScreen === 5 && (
-                    <ScreenFour
-                        farms={farms}
-                        setFarms={setFarms}
-                        onPrevious={goToPreviousScreen}
-                        onNext={goToNextScreen}
-                        // Assuming no next screen after ScreenThree
-                    />
-                )}
-                {currentScreen === 6 && (
-                    <ScreenFive
-                        farms={farms}
-                        setFarms={setFarms}
-                        onPrevious={goToPreviousScreen}
-                        onNext={goToNextScreen}
-                        // Assuming no next screen after ScreenThree
-                    />
-                )}
-                {currentScreen === 7 && (
-                    <ScreenSix
-                        farms={farms}
+                    <ForestInformation
+                        FarmDetailsData = {FarmDetailsData}
+                        farmDetailsForm={farmDetailsForm}
+                        setFarmDetailsForm={setFarmDetailsForm}
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
 

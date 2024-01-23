@@ -4,6 +4,13 @@
     left: 50px;
     padding: 10px;
   }
+
+  .logo-container-log {
+    /* position: fixed; */
+    top: 3px; /* Distance from the top */
+    left: 50px;
+    padding: 10px;
+  }
   
   .logo {
     height: 50px; /* Adjust the size as needed */

@@ -1,0 +1,59 @@
+.commodity-information {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.commodity-information h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.commodity-information table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.commodity-information th, td {
+    text-align: left;
+    padding: 8px;
+    font-size: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.commodity-information th {
+    color: #757575;
+}
+
+.commodity-information td input, td select {
+    font-size: 14px;
+    padding: 6px 10px;
+    margin: 4px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.commodity-information button {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.commodity-information button:hover {
+    background-color: #1565c0;
+}
+
+.commodity-information button:active {
+    background-color: #0d47a1;
+}

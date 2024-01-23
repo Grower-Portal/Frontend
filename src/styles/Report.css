@@ -10,16 +10,16 @@ body {
     min-height: 100vh;
 }
 
-#report-container {
+/* #report-container {
     width: 80%;
-    max-width: 600px;
+    max-width: auto;
     padding: 20px;
     border: 2px solid #2E7D32;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
-}
+} */
 
 h1 {
     color: #2E7D32;

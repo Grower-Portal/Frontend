@@ -1,6 +1,7 @@
 import React from 'react';
-
-function ScreenTwo({ farms, setFarms, onPrevious, onNext }) {
+import Info from '../../components/Info';
+function FieldHistories({ farms, setFarms, onPrevious, onNext }) {
+    
     const handleChange = (e, farmIndex, tractIndex, fieldName) => {
         const updatedFarms = [...farms];
         updatedFarms[farmIndex].tracts[tractIndex][fieldName] = e.target.value;
@@ -14,7 +15,15 @@ function ScreenTwo({ farms, setFarms, onPrevious, onNext }) {
                 <thead>
                     <tr>
                         <th>Farm ID</th>
-                        <th>Field Name</th>
+                        <th>
+                        <Info
+                            label={`Field Name`}
+                            infoText={`What is the "common field name"\n
+                            assigned to this land unit by the grower?\n
+                            This will be used to group Field IDs\n
+                            according to grower's nomenclature`}  
+                        />
+                        </th>
                         <th>Field Land Use History</th>
                         <th>Field Irrigation History</th>
                         <th>Field Tillage History</th>
@@ -82,4 +91,4 @@ function ScreenTwo({ farms, setFarms, onPrevious, onNext }) {
     );
 }
 
-export default ScreenTwo;
+export default FieldHistories;

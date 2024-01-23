@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
+import Info from '../../components/Info';
 
-function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
-    const [showHelp, setShowHelp] = useState(false);
+function CSAFPracticeHistories({ farms, setFarms, onPrevious, onNext }) {
     
 
     const handleChange = (e, farmIndex, tractIndex, fieldName) => {
         const updatedFarms = [...farms];
         updatedFarms[farmIndex].tracts[tractIndex][fieldName] = e.target.value;
         setFarms(updatedFarms);
-    };
-
-    const toggleHelpText = () => {
-        setShowHelp(!showHelp);
     };
 
 
@@ -22,7 +18,15 @@ function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
                 <thead>
                     <tr>
                         <th>Farm ID</th>
-                        <th>Field Name</th>
+                        <th>
+                        <Info
+                            label={`Field Name`}
+                            infoText={`What is the "common field name"\n
+                            assigned to this land unit by the grower?\n
+                            This will be used to group Field IDs\n
+                            according to grower's nomenclature`}  
+                        />
+                        </th>
                         <th>Field CSAF Practice History</th>
                         <th>Past CSAF Practice History</th>
                     </tr>
@@ -54,15 +58,6 @@ function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
                                         <option value="Some">Some</option>
                                         <option value="No">No</option>
                                     </select>
-                                    <span className="help-trigger" onClick={toggleHelpText}>Help</span>
-                                    {showHelp && (
-                                        <div className="help-text">
-                                            Prior to enrollment, had this (these) CSAF practice(s) been used in this field in the past 3 years? 
-                                            Enter yes if all of the practices had been used previously in this field; 
-                                            enter some if multiple practices are being implemented and one or another, but not all of the practices had been used previously in this field; 
-                                            and enter no if none of the practices had been used previously in this field.
-                                        </div>
-                                    )}
                                 </td>
                             </tr>
                         ))
@@ -75,4 +70,4 @@ function ScreenThree({ farms, setFarms, onPrevious, onNext }) {
     );
 }
 
-export default ScreenThree;
+export default CSAFPracticeHistories;

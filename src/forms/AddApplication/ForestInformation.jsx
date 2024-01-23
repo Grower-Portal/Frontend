@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 
-function ScreenSix({ farms, onPrevious, onNext }) {
-  const [forestInfo, setForestInfo] = useState({
-    totalForestArea: '',
-    fsaPhysicalLocation: '',
-    pastCSAFPractice: '',
-    uploadedDocument: null, // To store the uploaded document file
-  });
-
+function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsForm, onPrevious, onNext }) {
+  
+  const [forestRows, setForestRows] = useState(farmDetailsForm.length > 0 ? farmDetailsForm : FarmDetailsData); // State to store the farm details rows
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    setForestInfo({ ...forestInfo, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e, index) => {
+    const updatedForestRows = [...forestRows];
+    updatedForestRows[index] = {
+        ...updatedForestRows[index],
+        [e.target.name]: e.target.value,
+    };
+    setForestRows(updatedForestRows);
+    setFarmDetailsForm(updatedForestRows);
+};
 
   // Handle file input changes
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setForestInfo({ ...forestInfo, uploadedDocument: file });
+    setForestRows({ ...forestRows, uploadedDocument: file });
   };
 
   // Handle Next button click
   const handleNext = () => {
-    onNext(forestInfo); // Pass the forestInfo to the next screen or parent component
+    onNext(forestRows); // Pass the forestInfo to the next screen or parent component
   };
 
   // Handle Previous button click
@@ -66,30 +66,30 @@ function ScreenSix({ farms, onPrevious, onNext }) {
           </tr>
         </thead>
         <tbody>
-          {farms.map((farm, farmIndex) => (
-            <tr key={farmIndex}>
-              <td>{farm.farmNumber}</td>
+          {forestRows.map((farm, index) => (
+            <tr key={index}>
+              <td>{forestRows[index]?.farmNumber}</td>
               <td>
                 <input
                   type="text"
                   name={`totalForestArea`}
-                  value={forestInfo.totalForestArea}
-                  onChange={handleChange}
+                  value={farm.totalForestArea}
+                  onChange={(e) => handleChange(e, index)}
                 />
               </td>
               <td>
                 <input
                   type="text"
                   name={`fsaPhysicalLocation`}
-                  value={forestInfo.fsaPhysicalLocation}
-                  onChange={handleChange}
+                  value={farm.fsaPhysicalLocation}
+                  onChange={(e) => handleChange(e, index)}
                 />
               </td>
               <td>
                 <select
                   name={`pastCSAFPractice`}
-                  value={forestInfo.pastCSAFPractice}
-                  onChange={handleChange}
+                  value={farm.pastCSAFPractice}
+                  onChange={(e) => handleChange(e, index)}
                 >
                   {/* Options here */}
                   <option value="">Select Past CSAF Practice</option>
@@ -103,8 +103,9 @@ function ScreenSix({ farms, onPrevious, onNext }) {
               <td>
                 <input
                   type="file"
-                  accept=".pdf, .doc, .docx" // Define the accepted file types
-                  onChange={handleFileChange}
+                  name={`uploadedDocument`}
+                  accept=".pdf" // Define the accepted file types
+                  onChange={(e) => handleChange(e, index)}
                 />
               </td>
             </tr>
@@ -115,13 +116,13 @@ function ScreenSix({ farms, onPrevious, onNext }) {
         <div className="submission-message">{submissionMessage}</div>
       )}
       {!isSubmitted && <button onClick={handlePrevious}>Previous</button>}
-      <button onClick={handleNext}>Next</button>
+      {/* <button onClick={handleNext}>Next</button> */}
       {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
     </div>
   );
 }
 
-export default ScreenSix;
+export default ForestInformation;
 
 
 

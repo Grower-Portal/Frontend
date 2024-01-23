@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/SignIn.css';
 import growerPortalLogo from '../icons/grower-portal.png';
+import logoPlaceholder from '../icons/LogoSupremeRice.png';
+import logoPlaceholderSu from '../icons/SubrLogo.png';
 
 
 function SignIn() {
@@ -15,6 +17,33 @@ function SignIn() {
     const [otp, setOtp] = useState('');
     const [verificationMessage, setVerificationMessage] = useState('');
     const navigate = useNavigate();
+
+    // const handleLogin = () => {
+    //     // Your login logic here
+    //     let usernameInput = document.getElementById("username").value;
+    //     let passwordInput = document.getElementById("password").value;
+    
+    //     axios.post(`http://localhost:8080/api/auth/login?username=${usernameInput}&password=${passwordInput}`)
+    //         .then((response) => {
+    //                 // Check if both farmer and jwt exist in the response
+    //             if (response.data.farmer && response.data.jwt) {
+    //                 // Authentication was successful
+    //                 // Store the JWT token securely (e.g., in localStorage)
+    //                 localStorage.setItem('token', response.data.jwt);
+
+    //                 // Redirect the user to the desired page
+    //                 // navigate(`/Application+Dashboard?farmer_id=${response.data.farmer.farmer_ID}`);
+    //             } else {
+    //                 // Authentication failed, handle accordingly
+    //                 alert('Invalid username or password. Please try again.');
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             // Handle network errors or server issues
+    //             console.error('An error occurred during login:', error);
+    //             alert('An error occurred during login. Please try again later.');
+    //         });
+    // }
 
     const handleLogin = () => {
         // Your login logic here
@@ -39,6 +68,7 @@ function SignIn() {
             });
     }
 
+    
     const handleResetPassword = (e) => {
         e.preventDefault();
         // Implement password reset functionality here
@@ -136,9 +166,13 @@ function SignIn() {
             <p>Don't have an account? <Link to="/Register">Sign Up</Link></p>
             <div className="powered-by">
                 <p>Powered by:</p>
-                <div className="logo-container">
-                    <div className="logo">Logo 1</div>
-                    <div className="logo">Logo 2</div>
+                <div className="logo-container-log">
+                    <div className="logo">
+                        <img src={logoPlaceholderSu} alt="Logo-su" className="logo" />
+                    </div>
+                    <div className="logo">
+                        <img src={logoPlaceholder} alt="Logo" className="logo" />
+                    </div>
                 </div>
             </div>
         </div>

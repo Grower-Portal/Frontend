@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
 
-function ScreenFive({ farms, onPrevious, onNext }) {
-  const [livestockInfo, setLivestockInfo] = useState({
-    livestockType1: '',
-    livestockHead1: '',
-    livestockType2: '',
-    livestockHead2: '',
-    livestockType3: '',
-    livestockHead3: '',
-  });
-
+function LivestockInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsForm, onPrevious, onNext }) {
+  
+  const [livestockRows, setLivestockRows] = useState(farmDetailsForm.length > 0 ? farmDetailsForm : FarmDetailsData); // State to store the livestock information
   // Handle input changes
-  const handleChange = (e) => {
-    setLivestockInfo({ ...livestockInfo, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e, index) => {
+    const updatedLivestockRows = [...livestockRows];
+    updatedLivestockRows[index] = {
+        ...updatedLivestockRows[index],
+        [e.target.name]: e.target.value,
+    };
+    setLivestockRows(updatedLivestockRows);
+    setFarmDetailsForm(updatedLivestockRows);
+};
 
-  // Handle Next button click
-  const handleNext = () => {
-    onNext(livestockInfo); // Pass the livestockInfo to the next screen or parent component
-  };
+  
 
-  // Handle Previous button click
-  const handlePrevious = () => {
-    onPrevious(); // Go back to the previous screen
-  };
+  // // Handle Next button click
+  // const handleNext = () => {
+  //   onNext(farmDetailsRows); // Pass the livestockInfo to the next screen or parent component
+  // };
+
+  // // Handle Previous button click
+  // const handlePrevious = () => {
+  //   onPrevious(); // Go back to the previous screen
+  // };
 
   return (
-    <div className="form-screen">
+    <div className="LiveStock-Information-form">
       <h1>Livestock Information</h1>
       <table>
         <thead>
@@ -41,14 +42,14 @@ function ScreenFive({ farms, onPrevious, onNext }) {
           </tr>
         </thead>
         <tbody>
-          {farms.map((farm, farmIndex) => (
-            <tr key={farmIndex}>
-              <td>{farm.farmNumber}</td>
+          {livestockRows.map((farm, index) => (
+            <tr key={index}>
+              <td>{livestockRows[index]?.farmNumber}</td>
               <td>
                 <select
                   name={`livestockType1`}
-                  value={livestockInfo.livestockType1}
-                  onChange={handleChange}
+                  value={farm.livestockType1}
+                  onChange={(e) => handleChange(e, index)}
                 >
                   <option value="">Select Livestock Type</option>
                   <option value="Beef Cows">Beef Cows</option>
@@ -64,16 +65,16 @@ function ScreenFive({ farms, onPrevious, onNext }) {
                 <input
                   type="text"
                   name={`livestockHead1`}
-                  value={livestockInfo.livestockHead1}
-                  onChange={handleChange}
+                  value={farm.livestockHead1}
+                  onChange={(e) => handleChange(e, index)}
                 />
               </td>
               <td>
                 {farm.totalLivestockAreaAcres === 0 ? null : (
                   <select
                     name={`livestockType2`}
-                    value={livestockInfo.livestockType2}
-                    onChange={handleChange}
+                    value={farm.livestockType2}
+                    onChange={(e) => handleChange(e, index)}
                   >
                     <option value="">Select Livestock Type</option>
                     <option value="Alpacas">Alpacas</option>
@@ -105,17 +106,17 @@ function ScreenFive({ farms, onPrevious, onNext }) {
                   <input
                     type="text"
                     name={`livestockHead2`}
-                    value={livestockInfo.livestockHead2}
-                    onChange={handleChange}
+                    value={farm.livestockHead2}
+                    onChange={(e) => handleChange(e, index)}
                   />
                 )}
               </td>
               <td>
-                {livestockInfo.livestockType2 ? (
+                {farm.livestockType2 ? (
                   <select
                     name={`livestockType3`}
-                    value={livestockInfo.livestockType3}
-                    onChange={handleChange}
+                    value={farm.livestockType3}
+                    onChange={(e) => handleChange(e, index)}
                   >
                     <option value="">Select Livestock Type</option>
                     {/* Add options based on the selection of livestockType2 */}
@@ -146,12 +147,12 @@ function ScreenFive({ farms, onPrevious, onNext }) {
                 ) : null}
               </td>
               <td>
-                {livestockInfo.livestockType2 ? (
+                {farm.livestockType2 ? (
                   <input
                     type="text"
                     name={`livestockHead3`}
-                    value={livestockInfo.livestockHead3}
-                    onChange={handleChange}
+                    value={farm.livestockHead3}
+                    onChange={(e) => handleChange(e, index)}
                   />
                 ) : null}
               </td>
@@ -159,10 +160,10 @@ function ScreenFive({ farms, onPrevious, onNext }) {
           ))}
         </tbody>
       </table>
-      <button onClick={handlePrevious}>Previous</button>
-      <button onClick={handleNext}>Next</button>
+      <button onClick={onPrevious}>Previous</button>
+      <button className="button" onClick={onNext}>Next</button>
     </div>
   );
 }
 
-export default ScreenFive;
+export default LivestockInformation;
