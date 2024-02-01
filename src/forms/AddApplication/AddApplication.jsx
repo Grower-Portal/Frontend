@@ -6,6 +6,7 @@ import FarmInformation from './FarmInformation';
 import LivestockInformation from './LivestockInformation';
 import ForestInformation from './ForestInformation';
 import GrowerSurvey from './Questioneer';
+import Review from './Review';
 import Layout from '../../components/Layout';
 import '../../styles/AddApplication.css';
 
@@ -24,8 +25,6 @@ function AddApplication() {
     const [rows, setRows] = useState([]);
     const [farms, setFarms] = useState([{ farmNumber: '', tracts: [{ tractNumber: '', clus: [{ fieldClu: '', acres: '', fieldName: '' }] }] }]);
 
-    const [farmIds, setFarmIds] = useState([]);
-    const [fieldNames, setFieldNames] = useState([]);
 
     const farmNumberToFieldNameMapping = rows.map((row) => {
         if (row.farmNumber && row.clus.length > 0) {
@@ -104,15 +103,6 @@ function AddApplication() {
         srAgreementFile: null
       });
 
-    
-    const [livestockRows, setLivestockRows] = useState([]);
-    const handleFarmIdsChange = (newFarmIds) => {
-        setFarmIds(newFarmIds);
-    };
-    
-    const handleFieldNamesChange = (newFieldNames) => {
-        setFieldNames(newFieldNames);
-    };
 
     console.log("farmDetailsForm", farmDetailsForm);
     // Navigate to the next screen
@@ -124,6 +114,8 @@ function AddApplication() {
     const goToPreviousScreen = () => {
         setCurrentScreen(currentScreen - 1);
     };
+
+    console.log("formData", formData);
 
     return (
         <Layout>
@@ -141,8 +133,6 @@ function AddApplication() {
                         // setProducerInfo={setProducerInfo} 
                         rows={rows}
                         setRows={setRows}
-                        onFarmIdsChange={handleFarmIdsChange}
-                        onFieldNamesChange={handleFieldNamesChange}
                         farms={farms} 
                         setFarms={setFarms} 
                         onPrevious={goToPreviousScreen}
@@ -200,8 +190,20 @@ function AddApplication() {
                         setFormData = {setFormData}
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
+                        onNext={goToNextScreen}
 
                         // Assuming no next screen after ScreenThree
+                    />
+                )}
+
+                {currentScreen === 7 && (
+                    <Review
+                        producerInfo={producerInfo}
+                        rows={rows}
+                        farms={farms}
+                        commodityForm={commodityForm}
+                        farmDetailsForm={farmDetailsForm}
+                        formData={formData}
                     />
                 )}
                 

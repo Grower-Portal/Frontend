@@ -168,6 +168,7 @@ const GrowerSurvey = ({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, for
     
     {!isSubmitted && <button onClick={handlePrevious}>Previous</button>}
     {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
+    <button className="button" onClick={onNext}>Next</button>
     </div>
   );
 };
