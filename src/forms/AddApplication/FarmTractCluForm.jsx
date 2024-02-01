@@ -178,23 +178,6 @@ function FarmTractCluForm({ rows, setRows, farms, setFarms, onPrevious, onNext }
     }
   };
 
-  // useEffect(() => {
-
-  //   const newFieldNames = rows.flatMap(row => row.clus.map(clu => clu.fieldName)).filter((value, index, self) => value && self.indexOf(value) === index);
-  //   // console.log("rows changed: ", rows);
-  //   setFarms(rows);
-  //   setFieldNames(newFieldNames);
-
-  //   rows.forEach((row, index) => {
-  //     row.clus.forEach((clu, cluIndex) => {
-  //       if (row.farmNumber && row.tractNumber && clu.fieldClu && !clu.acres && !clu.fetchingAcreage) {
-  //         fetchFsaPhysicalLocation(row.farmNumber, row.tractNumber, clu.fieldClu, index, cluIndex);
-  //         fetchCluCalculatedAcreage(row.farmNumber, row.tractNumber, clu.fieldClu, index, cluIndex);
-  //       }
-  //     });
-  //   });
-  // }, [rows, setFarms, fetchFsaPhysicalLocation, fetchCluCalculatedAcreage]);
-
 
   const handleSearchClick = (index, cluIndex) => {
     const farmNumber = rows[index].farmNumber;
@@ -206,6 +189,11 @@ function FarmTractCluForm({ rows, setRows, farms, setFarms, onPrevious, onNext }
       fetchCluCalculatedAcreage(farmNumber, tractNumber, cluNumber, index, cluIndex);
     }
   };
+
+  useEffect(() => {
+    const newFieldNames = rows.flatMap(row => row.clus.map(clu => clu.fieldName)).filter((value, index, self) => value && self.indexOf(value) === index);
+    setFieldNames(newFieldNames);
+  }, [rows]);
 
   
 
@@ -259,19 +247,6 @@ function FarmTractCluForm({ rows, setRows, farms, setFarms, onPrevious, onNext }
                   )}
                 </td>
                 <td>
-                  {/* {row.clus.map((clu, cluIndex) => (
-                    <div key={cluIndex}>
-                      <input 
-                        type="Number"
-                        value={clu.fieldClu}
-                        onChange={(e) => handleCLUChange(index, cluIndex, 'fieldClu', e.target.value)}
-
-                      />
-                      {index === rows.length - 1 && (
-                        <AddIcon onClick={addFieldCLU} />
-                      )}
-                    </div>
-                  ))} */}
                   {row.clus.map((clu, cluIndex) => (
                   <div key={cluIndex} style={{ display: 'flex', alignItems: 'center' }}>
                     <input 

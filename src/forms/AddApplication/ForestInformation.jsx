@@ -23,9 +23,9 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
   };
 
   // Handle Next button click
-  const handleNext = () => {
-    onNext(forestRows); // Pass the forestInfo to the next screen or parent component
-  };
+  // const handleNext = () => {
+  //   onNext(forestRows); // Pass the forestInfo to the next screen or parent component
+  // };
 
   // Handle Previous button click
   const handlePrevious = () => {
@@ -117,7 +117,8 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
       )}
       {!isSubmitted && <button onClick={handlePrevious}>Previous</button>}
       {/* <button onClick={handleNext}>Next</button> */}
-      {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
+      <button className="button" onClick={onNext}>Next</button>
+      {/* {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>} */}
     </div>
   );
 }

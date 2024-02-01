@@ -5,6 +5,7 @@ import CommodityInformation from './CommodityInformation';
 import FarmInformation from './FarmInformation';
 import LivestockInformation from './LivestockInformation';
 import ForestInformation from './ForestInformation';
+import GrowerSurvey from './Questioneer';
 import Layout from '../../components/Layout';
 import '../../styles/AddApplication.css';
 
@@ -77,6 +78,31 @@ function AddApplication() {
         fieldCsafPracticeHistory: '',
         pastCsafPracticeHistory: ''
     }))
+
+    const [formData, setFormData] = useState({
+        controllingMembers: '',
+        ccc860Certification: '',
+        ccc860Members: '',
+        participatedInLSUMasterFarmer: '',
+        lSUMasterFarmerParticipants: '',
+        highestDegreeOfParticipation: '',
+        yearsOfExperience: '',
+        farmedRiceIn2023: '',
+        riceAcres2023: '',
+        firstYearFarmingRice: '',
+        lastYearFarmedRice: '',
+        riceAcresLastYear: '',
+        incomePercentage: '',
+        participateInSDDStudy: '',
+        agreementWithSupremeRice: '',
+        understandingOfFundingProhibition: '',
+        agreementOnAWDorSDDPayment: '',
+        authorityToCompleteApplication: '',
+        ccc860File: null,
+        masterFarmerFile: null,
+        srNDAFile: null,
+        srAgreementFile: null
+      });
 
     
     const [livestockRows, setLivestockRows] = useState([]);
@@ -159,12 +185,25 @@ function AddApplication() {
                         setFarmDetailsForm={setFarmDetailsForm}
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
-
+                        onNext={goToNextScreen}
                         // Assuming no next screen after ScreenThree
                     />
                 )}
                 
                 {/* Add more screens as needed */}
+                {currentScreen === 6 && (
+                    <GrowerSurvey
+                        FarmDetailsData = {FarmDetailsData}
+                        farmDetailsForm={farmDetailsForm}
+                        setFarmDetailsForm={setFarmDetailsForm}
+                        formData = {formData}
+                        setFormData = {setFormData}
+                        setFarms={setFarms}
+                        onPrevious={goToPreviousScreen}
+
+                        // Assuming no next screen after ScreenThree
+                    />
+                )}
                 
             </div>
         </Layout>
