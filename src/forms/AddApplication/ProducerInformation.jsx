@@ -23,7 +23,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         const producerEntityName = producerInfo.producerEntityName;
         
       try {
-        const response = await fetch('http://localhost:8080/api/applicationss', {
+        const response = await fetch('https://grower-portal-412701.uc.r.appspot.com/api/applicationss', {
           method: 'POST',
           headers: {
             'Accept': '*/*',
