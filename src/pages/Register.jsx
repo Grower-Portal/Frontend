@@ -27,7 +27,7 @@ function Register() {
     });
 
     const maxDate = new Date();
-    const minDate = new Date(1999, 0, 1);
+    const minDate = new Date(1900, 0, 1);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
