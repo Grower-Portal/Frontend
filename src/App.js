@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom
 import SignIn from './pages/SignIn';
 import Register from './pages/Register';
 import SignOut from './components/SignOut';
-import Dashboard from './pages/Dashboard';
+import ImageUpload from './pages/ImageUpload';
 import About from './pages/About';
 import StepsToFollow from './pages/StepsToFollow';
 import UserInformation from './pages/UserInformation';
@@ -45,7 +45,7 @@ function App() {
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/SignOut" element={<SignOut />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/ImageUpload" element={<ImageUpload />} />
           <Route path="/About" element={<About />} />
           <Route path="/StepsToFollow" element={<StepsToFollow />} />
           <Route path="/UserInformation" element={<UserInformation />} />

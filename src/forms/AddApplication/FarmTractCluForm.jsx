@@ -96,7 +96,7 @@ function FarmTractCluForm({ rows, setRows, farms, setFarms, onPrevious, onNext }
       newRows[index].clus[cluIndex].fetchingAcreage = true;
       setRows(newRows);
       
-      const response = await fetch(`http://localhost:8080/api/clula/findCluCalculatedAcreage?farmNumber=${farmNumber}&tractNumber=${tractNumber}&cluNumber=${cluNumber}`, {
+      const response = await fetch(`http://grower-portal-412701.uc.r.appspot.com/api/clula/findCluCalculatedAcreage?farmNumber=${farmNumber}&tractNumber=${tractNumber}&cluNumber=${cluNumber}`, {
         method: 'GET',
         headers: {
           'accept': '*/*',
@@ -142,7 +142,7 @@ function FarmTractCluForm({ rows, setRows, farms, setFarms, onPrevious, onNext }
     const newRows = [...rows];
     newRows[index].clus[cluIndex].fetchingFsaLocation = true;
     setRows(newRows);
-      const response = await fetch(`http://localhost:8080/api/clula/findFsaPhysicalLocation?farmNumber=${farmNumber}&tractNumber=${tractNumber}&cluNumber=${cluNumber}`);
+      const response = await fetch(`http://grower-portal-412701.uc.r.appspot.com/api/clula/findFsaPhysicalLocation?farmNumber=${farmNumber}&tractNumber=${tractNumber}&cluNumber=${cluNumber}`);
       if (response.ok) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
