@@ -121,7 +121,7 @@ function Register() {
             return;
         }
 
-        axios.post(`http://localhost:8080/api/farmers/send-verification-code?email=${email}`)
+        axios.post(`https://grower-portal-412701.uc.r.appspot.com/api/farmers/send-verification-code?email=${email}`)
         .then((response) => {
             // Handle the response here
             // The backend should have sent the OTP to the provided email
@@ -184,7 +184,7 @@ function Register() {
         };
     
         // Make an HTTP POST request to the verification endpoint
-        axios.post(`http://localhost:8080/api/farmers/verify-otp?email=${email}&otp=${otp}`, userData, {
+        axios.post(`https://grower-portal-412701.uc.r.appspot.com/api/farmers/verify-otp?email=${email}&otp=${otp}`, userData, {
             headers: {
                 'Content-Type': 'application/json',
                 'accept': '*',
