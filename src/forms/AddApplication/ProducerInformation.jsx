@@ -22,50 +22,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         const producerAddress = producerInfo.producerAddress;
         const producerEntityName = producerInfo.producerEntityName;
         
-      try {
-        const response = await fetch('https://grower-portal-412701.uc.r.appspot.com/api/applicationss', {
-          method: 'POST',
-          headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            applicationId: 0,
-            farmer: {
-              farmer_ID: 10
-            },
-            producerInfo: {
-                producerInfoId: 0,
-                farmer: {
-                    farmer_ID: 10
-                  },
-                countyOfResidence: countyOfResidence,
-                baselineYield: baselineYield,
-                primaryReasonForApplying: primaryReasonForApplying,   
-                implementedCsafPractices: implementedCsafPractices,
-                isUnderservedSmallProducer: isUnderservedSmallProducer,
-                producerName: producerName,
-                producerAddress: producerAddress,
-                producerEntityName: producerEntityName
-            },
-            applicationDate: new Date().toISOString().slice(0, 10),
-            status: 'in progress'
-          }),
-        });
-  
-        if (response.status === 201) {
-          // Producer information stored successfully
-          // You can perform any further actions here, such as navigating to the next page.
-          onNext();
-        } else {
-          // Handle any errors or display an error message to the user.
-          console.error('Failed to store producer information.');
-          console.log(producerInfo);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        onNext();
-      }
+      onNext();
     };
 
     return (

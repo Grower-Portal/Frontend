@@ -204,6 +204,7 @@ function AddApplication() {
                         commodityForm={commodityForm}
                         farmDetailsForm={farmDetailsForm}
                         formData={formData}
+                        onPrevious={goToPreviousScreen}
                     />
                 )}
                 
