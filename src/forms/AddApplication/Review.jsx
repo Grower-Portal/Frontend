@@ -3,7 +3,6 @@ import React from 'react';
 function Review({
     producerInfo,
     rows,
-    farms,
     commodityForm,
     farmDetailsForm,
     formData,
@@ -30,7 +29,7 @@ function Review({
             </div>
 
             <div>
-                <h3>Rows</h3>
+                <h3>Farms</h3>
                     <table>
                         <thead>
                             <tr>
@@ -54,35 +53,13 @@ function Review({
             </div>
 
             <div>
-                <h3>Farms</h3>
-                {farms.map((farm, index) => (
-                    <div key={index}>
-                        <p><strong>Farm ID:</strong> {farm.farmNumber}</p>
-                        {farm.tracts.map((tract, tractIndex) => (
-                            <div key={tractIndex}>
-                                <p><strong>Tract ID:</strong> {tract.tractNumber}</p>
-                                {tract.clus.map((clu, cluIndex) => (
-                                    <div key={cluIndex}>
-                                        <p><strong>Field ID:</strong> {clu.fieldClu}</p>
-                                        <p><strong>Acres:</strong> {clu.acres}</p>
-                                        <p><strong>Field Name:</strong> {clu.fieldName}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
-
-            <div>
                 <h3>Commodity Information</h3>
                     <table>
                         <thead>
                             <tr>
                                 <th>Farm ID</th>
-                                <th>Tract ID</th>
-                                <th>Field ID</th>
-                                <th>Acres</th>
+                                <th>Field Name</th>
+                                <th>Report Qty</th>
                                 <th>Commodity Category</th>
                                 <th>Commodity Type</th>
                                 <th>Field Land Use History</th>
@@ -96,9 +73,8 @@ function Review({
                             {commodityForm.map((commodity, index) => (
                                 <tr key={index}>
                                     <td>{commodity.farmNumber}</td>
-                                    <td>{commodity.tractNumber}</td>
-                                    <td>{commodity.clu}</td>
-                                    <td>{commodity.acres}</td>
+                                    <td>{commodity.fieldName}</td>
+                                    <td>{commodity.reportQtyAcres}</td>
                                     <td>{commodity.commodityCategory}</td>
                                     <td>{commodity.commodityType}</td>
                                     <td>{commodity.fieldLandUseHistory}</td>

@@ -43,7 +43,45 @@ function AddApplication() {
     const [commodityForm, setCommodityForm] = useState([]);
     // [{farmNumber: '', tractNumber: '', clu: '', acres: '', commodityCategory: '', commodityType: '', fieldLandUseHistory: '', fieldIrrigationHistory: '', fieldTillageHistory: '', fieldCsafPracticeHistory: '', pastCsafPracticeHistory: ''}
     const [farmDetailsForm, setFarmDetailsForm] = useState([]);
+
+
+     // Calculate total acres for each unique field name with respect to its farm ID
+     useEffect(() => {
+        const uniqueFields = {};
+        rows.forEach(row => {
+            const farmNumber = row.farmNumber;
+            row.clus.forEach(clu => {
+                const fieldName = clu.fieldName;
+                if (!uniqueFields[`${farmNumber}-${fieldName}`]) {
+                    uniqueFields[`${farmNumber}-${fieldName}`] = {
+                        farmNumber,
+                        fieldName,
+                        acres: 0
+                    };
+                }
+                uniqueFields[`${farmNumber}-${fieldName}`].acres += parseFloat(clu.acres);
+            });
+        });
+
+        const updatedCommodityData = Object.values(uniqueFields).map(field => ({
+            farmNumber: field.farmNumber,
+            fieldName: field.fieldName,
+            reportQtyAcres: field.acres.toFixed(3),
+            commodityCategory: '',
+            commodityType: 'Rice',
+            fieldLandUseHistory: '',
+            fieldIrrigationHistory: '',
+            fieldTillageHistory: '',
+            fieldCsafPracticeHistory: '',
+            pastCsafPracticeHistory: ''
+        }));
+
+        setCommodityData(updatedCommodityData);
+    }, [rows]);
+
     
+    // State to store commodity data
+    const [commodityData, setCommodityData] = useState([]);
 
     const FarmDetailsData = farmNumberToFieldNameMapping.map((farm) => ({
         farmNumber: farm.farmNumber,
@@ -65,18 +103,18 @@ function AddApplication() {
     
     
    
-   const CommodityData = farmNumberToFieldNameMapping.map((farm) => ({
-        farmNumber: farm.farmNumber,
-        fieldName: farm.fieldName,
-        reportQtyAcres: farm.acres,
-        commodityCategory: '',
-        commodityType: 'Rice',
-        fieldLandUseHistory: '',
-        fieldIrrigationHistory: '',
-        fieldTillageHistory: '',
-        fieldCsafPracticeHistory: '',
-        pastCsafPracticeHistory: ''
-    }))
+//    const CommodityData = farmNumberToFieldNameMapping.map((farm) => ({
+//         farmNumber: farm.farmNumber,
+//         fieldName: farm.fieldName,
+//         reportQtyAcres: farm.acres,
+//         commodityCategory: '',
+//         commodityType: 'Rice',
+//         fieldLandUseHistory: '',
+//         fieldIrrigationHistory: '',
+//         fieldTillageHistory: '',
+//         fieldCsafPracticeHistory: '',
+//         pastCsafPracticeHistory: ''
+//     }))
 
     const [formData, setFormData] = useState({
         controllingMembers: '',
@@ -141,7 +179,7 @@ function AddApplication() {
                 )}
                 {currentScreen === 2 && (
                     <CommodityInformation
-                        CommodityData = {CommodityData}
+                        CommodityData = {commodityData}
                         commodityForm={commodityForm}
                         setCommodityForm={setCommodityForm}
                         onPrevious={goToPreviousScreen}
