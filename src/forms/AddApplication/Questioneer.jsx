@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-const GrowerSurvey = ({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, formData, setFormData, onPrevious, onNext }) => {
+const GrowerSurvey = ({formData, setFormData, onPrevious, onNext }) => {
 
 
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [submissionMessage, setSubmissionMessage] = useState("");
+    
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === 'file') {
@@ -14,28 +13,7 @@ const GrowerSurvey = ({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, for
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Process and send formData to the server or handle accordingly
-    console.log(formData);
-    // Handle Submit button click
-    const confirmMessage =
-      "Submit Application means you have checked every detail you have entered in the application, and you are confirming the details are true in nature. Do you want to submit the application?";
-    const isConfirmed = window.confirm(confirmMessage);
-    if (isConfirmed) {
-      onSubmit(); // You can pass the forestInfo data to this function if needed
-    }
-  };
-
-  // Handle actual submission
-  const onSubmit = () => {
-    // Logic to handle the actual submission, e.g., sending data to a server
-    // You can also handle the uploaded document here
-
-    // After successful submission:
-    setSubmissionMessage("Application Submitted for Verification and Approval");
-    setIsSubmitted(true); // Update the submission state
-  };
+  
 
   // Handle Previous button click
   const handlePrevious = () => {
@@ -163,11 +141,9 @@ const GrowerSurvey = ({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, for
         <label>Upload Supreme Rice Agreement</label>
         <input type="file" name="srAgreementFile" onChange={handleChange} />
       </div>
-
-        <div className="submission-message">{submissionMessage}</div>
     
-    {!isSubmitted && <button onClick={handlePrevious}>Previous</button>}
-    {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
+    <button onClick={handlePrevious}>Previous</button>
+    
     <button className="button" onClick={onNext}>Next</button>
     </div>
   );

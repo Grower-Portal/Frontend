@@ -1,0 +1,17 @@
+/* UserInfo.css */
+
+  
+.user-info {
+    position: fixed;
+    top: 15px;
+    right: 110px;
+    width: auto;
+    padding: 10px 20px;
+    background-color: #2E7D32; /* Green background color */
+    font-size: small;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    z-index: 1000; /* High z-index to ensure it's above other elements */
+  }
+  

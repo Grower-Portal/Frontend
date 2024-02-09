@@ -1,13 +1,13 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 import { isAuthenticated } from './services/auth';
 
-function ProtectedRoute({ element }) {
+const ProtectedRoutes = () => {
   return isAuthenticated() ? (
-    <Route element={element} />
+    <Outlet />
   ) : (
     <Navigate to="/SignIn" />
   );
 }
 
-export default ProtectedRoute;
+export default ProtectedRoutes;

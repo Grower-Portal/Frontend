@@ -11,96 +11,120 @@ function SignIn() {
     const [showForgotPasswordForm, setShowForgotPasswordForm] = useState(false);
     const [resetPasswordMessage, setResetPasswordMessage] = useState('');
     const [otpVerificationSuccess, setOtpVerificationSuccess] = useState(false);
-    const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [otp, setOtp] = useState('');
     const [verificationMessage, setVerificationMessage] = useState('');
     const navigate = useNavigate();
 
-    // const handleLogin = () => {
-    //     // Your login logic here
-    //     let usernameInput = document.getElementById("username").value;
-    //     let passwordInput = document.getElementById("password").value;
-    
-    //     axios.post(`http://localhost:8080/api/auth/login?username=${usernameInput}&password=${passwordInput}`)
-    //         .then((response) => {
-    //                 // Check if both farmer and jwt exist in the response
-    //             if (response.data.farmer && response.data.jwt) {
-    //                 // Authentication was successful
-    //                 // Store the JWT token securely (e.g., in localStorage)
-    //                 localStorage.setItem('token', response.data.jwt);
-
-    //                 // Redirect the user to the desired page
-    //                 // navigate(`/Application+Dashboard?farmer_id=${response.data.farmer.farmer_ID}`);
-    //             } else {
-    //                 // Authentication failed, handle accordingly
-    //                 alert('Invalid username or password. Please try again.');
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             // Handle network errors or server issues
-    //             console.error('An error occurred during login:', error);
-    //             alert('An error occurred during login. Please try again later.');
-    //         });
-    // }
-
     const handleLogin = () => {
         // Your login logic here
         let usernameInput = document.getElementById("username").value;
         let passwordInput = document.getElementById("password").value;
-
-        const credentials = {
-            username: usernameInput,
-            password: passwordInput,
-        };
-
-        axios.post('http://grower-portal-412701.uc.r.appspot.com/api/auth/login', credentials)
+    
+        axios.post(`http://localhost:8080/api/auth/login?username=${usernameInput}&password=${passwordInput}`)
             .then((response) => {
-                // Handle the response, which may include a JWT token
-                // If authentication is successful, you can store the token securely
-                // Redirect the user to the desired page
-                navigate('/Application+Dashboard');
+                    // Check if both farmer and jwt exist in the response
+                if (response.data.farmer && response.data.jwt) {
+                    // Authentication was successful
+                    // Store the JWT token securely (e.g., in localStorage)
+                    const { farmer_ID, firstName, lastName, email } = response.data.farmer;
+      
+                    // Store user information in localStorage
+                    localStorage.setItem('farmerId', farmer_ID);
+                    localStorage.setItem('firstName', firstName);
+                    localStorage.setItem('lastName', lastName);
+                    localStorage.setItem('email', email);
+                    localStorage.setItem('token', response.data.jwt);
+
+                    // Redirect the user to the desired page
+                    navigate(`/ApplicationDashboard?farmer_id=${response.data.farmer.farmer_ID}`);
+                } else {
+                    // Authentication failed, handle accordingly
+                    alert('Invalid username or password. Please try again.');
+                }
             })
             .catch((error) => {
-                // Handle authentication error (e.g., invalid credentials)
-                alert('Invalid username or password. Please try again.');
+                // Handle network errors or server issues
+                console.error('An error occurred during login:', error);
+                alert('An error occurred during login. Please try again later.');
             });
     }
+
+    // const handleLogin = () => {
+    //     // Your login logic here
+    //     let usernameInput = document.getElementById("username").value;
+    //     let passwordInput = document.getElementById("password").value;
+
+    //     const credentials = {
+    //         username: usernameInput,
+    //         password: passwordInput,
+    //     };
+
+    //     axios.post('http://grower-portal-412701.uc.r.appspot.com/api/auth/login', credentials)
+    //         .then((response) => {
+    //             // Handle the response, which may include a JWT token
+    //             // If authentication is successful, you can store the token securely
+    //             // Redirect the user to the desired page
+    //             navigate('/Application+Dashboard');
+    //         })
+    //         .catch((error) => {
+    //             // Handle authentication error (e.g., invalid credentials)
+    //             alert('Invalid username or password. Please try again.');
+    //         });
+    // }
 
     
     const handleResetPassword = (e) => {
         e.preventDefault();
-        // Implement password reset functionality here
-        // After successful handling, set the reset message
-        setResetPasswordMessage('Email containing OTP has been sent. Please check your inbox or junk/spam folder and enter the OTP in the area below');
-        setShowNewPasswordForm(false); // Hide the new password form
-        setOtpVerificationSuccess(true);
+        const email = document.getElementById("email").value;
+
+    axios.post(`http://localhost:8080/auth/request-password-reset?email=${email}`)
+        .then((response) => {
+            // Implement password reset functionality here
+            // After successful handling, set the reset message
+            setResetPasswordMessage('Email containing OTP has been sent. Please check your inbox or junk/spam folder and enter the OTP in the area below');
+            // setShowNewPasswordForm(false); // Hide the new password form
+            setOtpVerificationSuccess(true);
+        })
+        .catch((error) => {
+            // Handle request error
+            console.error('An error occurred during password reset request:', error);
+            alert('An error occurred during password reset request. Please try again later.');
+        });
     };
 
-    const handleOtpVerification = (e) => {
-        e.preventDefault();
-        // Implement OTP verification logic here
-        // Check if OTP is valid
-        const isOtpValid = true; // Replace with your OTP verification logic
-        if (isOtpValid) {
-            setVerificationMessage('OTP verified successfully!');
-            setShowForgotPasswordForm(false); // Hide the forgot password form
-            setShowNewPasswordForm(true); // Show New Password form
-        } else {
-            // Handle incorrect OTP
-            // Display an error message or take appropriate action
-            setVerificationMessage('OTP verification failed. Please try again.');
-        }
-    }
-
     const handlePasswordReset = () => {
-        // Implement password reset logic here
-        // Update the password for the user
-        // After successful password reset, navigate the user to the login page or another appropriate page
-        alert('Password reset successful.');
-        navigate('/SignIn'); // Example: Navigate to the login page
-        window.location.reload();
+        const otp = document.getElementById("otp").value;
+        const newPassword = document.getElementById("newPassword").value;
+        const confirmPassword = document.getElementById("confirmNewPassword").value;
+
+        const userData = { newPassword, confirmPassword};
+        // Check if passwords match
+        if (newPassword !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+
+        // Make a POST request to reset the password
+        axios.post(`http://localhost:8080/auth/reset-password?otp=${otp}`, userData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': '*',
+            },
+        })
+        .then((response) => {
+            // Handle password reset success
+            setVerificationMessage('OTP verified successfully!');
+            alert('Password reset successful.');
+            navigate('/SignIn'); // Navigate to the login page
+            window.location.reload(); // Refresh the page
+        })
+        .catch((error) => {
+            // Handle password reset failure
+            console.error('An error occurred during password reset:', error);
+            alert('An error occurred during password reset. Please try again.');
+        });
     }
 
     return (
@@ -134,36 +158,26 @@ function SignIn() {
                     {resetPasswordMessage && <p style={{ color: 'blue' }}>{resetPasswordMessage}</p>}
                 </div>
             )}
-            {otpVerificationSuccess && !showNewPasswordForm && (
+            {otpVerificationSuccess && (
                 <div id="otp-verification-form">
                     <h2>OTP Verification</h2>
                     <p>Enter the OTP sent to your email.</p>
-                    <form id="verify-otp-form" onSubmit={handleOtpVerification}>
+                    <form id="verify-otp-form">
                         {/* OTP input field */}
                         <label htmlFor="otp">OTP:</label>
                         <input type="text" id="otp" name="otp" value={otp} onChange={(e) => setOtp(e.target.value)} required />
-                        <button type="submit">Verify OTP</button>
+                        <input type="password" id = "newPassword" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+                        <input type="password" id = "confirmNewPassword" placeholder="Confirm Password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} required />
+                        <button type="button" onClick={handlePasswordReset}>Reset Password</button>
                     </form>
                     {/* Message after OTP verification */}
                     {verificationMessage && <p style={{ color: 'green' }}>{verificationMessage}</p>}
                 </div>
             )}
-            {showNewPasswordForm && (
-                <div id="new-password-form">
-                    <h2>Reset Password</h2>
-                    <p>Enter your new password.</p>
-                    <form id="reset-new-password-form">
-                        {/* New password and confirm password input fields */}
-                        <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
-                        <input type="password" placeholder="Confirm Password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} required />
-                        <button type="button" onClick={handlePasswordReset}>Reset Password</button>
-                    </form>
-                </div>
-            )}
             <p className="forgot-password" onClick={() => setShowForgotPasswordForm(true)}>
                 {showForgotPasswordForm || otpVerificationSuccess ? '' : 'Forgot Password?'}
             </p>
-            <p>Don't have an account? <Link to="/Register">Sign Up</Link></p>
+            {/* <p>Don't have an account? <Link to="/Register">Sign Up</Link></p> */}
             <div className="powered-by">
                 <p>Powered by:</p>
                 <div className="logo-container-log">

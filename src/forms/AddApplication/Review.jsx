@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 function Review({
     producerInfo,
@@ -6,8 +6,36 @@ function Review({
     commodityForm,
     farmDetailsForm,
     formData,
-    onPrevious
-}) {
+    onPrevious,
+    onSubmit
+}) 
+{
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submissionMessage, setSubmissionMessage] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Process and send formData to the server or handle accordingly
+        console.log(formData);
+        // Handle Submit button click
+        const confirmMessage =
+          "Submit Application means you have checked every detail you have entered in the application, and you are confirming the details are true in nature. Do you want to submit the application?";
+        const isConfirmed = window.confirm(confirmMessage);
+        if (isConfirmed) {
+          onButtonSubmit(); // You can pass the forestInfo data to this function if needed
+        }
+      };
+    
+      // Handle actual submission
+      const onButtonSubmit = () => {
+        // Logic to handle the actual submission, e.g., sending data to a server
+        // You can also handle the uploaded document here
+        onSubmit();
+        // After successful submission:
+        setSubmissionMessage("Application Submitted for Verification and Approval");
+        setIsSubmitted(true); // Update the submission state
+      };
+
     return (
         <div className="review-container">
             <h2>Review Your Application</h2>
@@ -34,6 +62,7 @@ function Review({
                         <thead>
                             <tr>
                                 <th>Farm ID</th>
+                                {/* <th>Tract ID</th> */}
                                 <th>Field ID</th>
                                 <th>Acres</th>
                                 <th>Field Name</th>
@@ -43,6 +72,7 @@ function Review({
                             {rows.map((row, index) => (
                                 <tr key={index}>
                                     <td>{row.farmNumber}</td>
+                                    {/* <td>{row.tracts.map(tract => tract.tractNumber).join(', ')}</td> */}
                                     <td>{row.clus.map(clu => clu.fieldClu).join(', ')}</td>
                                     <td>{row.clus.map(clu => clu.acres).join(', ')}</td>
                                     <td>{row.clus.map(clu => clu.fieldName).join(', ')}</td>
@@ -211,7 +241,9 @@ function Review({
                 </tbody>
             </table>
         </div>
+        <div className="submission-message">{submissionMessage}</div>
         <button onClick={onPrevious}>Previous</button>
+        {!isSubmitted && <button onClick={handleSubmit}>Submit Application</button>}
         </div>
 
         

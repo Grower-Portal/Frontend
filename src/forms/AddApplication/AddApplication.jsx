@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import ProducerInformation from './ProducerInformation';
 import FarmTractCluForm from './FarmTractCluForm';
 import CommodityInformation from './CommodityInformation';
@@ -11,7 +12,24 @@ import Layout from '../../components/Layout';
 import '../../styles/AddApplication.css';
 
 function AddApplication() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const farmerId = queryParams.get("farmerId");
     const [currentScreen, setCurrentScreen] = useState(0); // Start from ScreenZero
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = ''; // Required for Chrome and Firefox
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     const [producerInfo, setProducerInfo] = useState({
         producerName: '',
         producerEntityName: '',
@@ -25,11 +43,14 @@ function AddApplication() {
     const [rows, setRows] = useState([]);
     const [farms, setFarms] = useState([{ farmNumber: '', tracts: [{ tractNumber: '', clus: [{ fieldClu: '', acres: '', fieldName: '' }] }] }]);
 
+    console.log("tractfarms", farms);
 
     const farmNumberToFieldNameMapping = rows.map((row) => {
         if (row.farmNumber && row.clus.length > 0) {
             return {
                 farmNumber: row.farmNumber,
+                tractNumber: row.tractNumber,
+                cluNumber: row.clus[0].fieldClu,
                 fieldName: row.clus[0].fieldName,
                 acres: row.clus[0].acres,
                 fsaPhysicalLocation: row.clus[0].fsaPhysicalLocation
@@ -41,7 +62,6 @@ function AddApplication() {
 
     console.log("farmNumberToFieldNameMapping", farmNumberToFieldNameMapping);
     const [commodityForm, setCommodityForm] = useState([]);
-    // [{farmNumber: '', tractNumber: '', clu: '', acres: '', commodityCategory: '', commodityType: '', fieldLandUseHistory: '', fieldIrrigationHistory: '', fieldTillageHistory: '', fieldCsafPracticeHistory: '', pastCsafPracticeHistory: ''}
     const [farmDetailsForm, setFarmDetailsForm] = useState([]);
 
 
@@ -98,23 +118,8 @@ function AddApplication() {
         totalForestArea: '',
         fsaPhysicalLocation: farm.fsaPhysicalLocation,
         pastCSAFPractice: '',
-        uploadedDocument: null, // To store the uploaded document file
+        uploadedDocument: null
     }));
-    
-    
-   
-//    const CommodityData = farmNumberToFieldNameMapping.map((farm) => ({
-//         farmNumber: farm.farmNumber,
-//         fieldName: farm.fieldName,
-//         reportQtyAcres: farm.acres,
-//         commodityCategory: '',
-//         commodityType: 'Rice',
-//         fieldLandUseHistory: '',
-//         fieldIrrigationHistory: '',
-//         fieldTillageHistory: '',
-//         fieldCsafPracticeHistory: '',
-//         pastCsafPracticeHistory: ''
-//     }))
 
     const [formData, setFormData] = useState({
         controllingMembers: '',
@@ -155,6 +160,105 @@ function AddApplication() {
 
     console.log("formData", formData);
 
+    // Function to submit the application data
+const submitApplication = async () => {
+    try {
+        const mappedProducerInfo = {
+            ...producerInfo,
+            fieldName: farmNumberToFieldNameMapping.map(field => ({
+                ...field,
+                farm: rows
+                    .filter(row => row.farmNumber === field.farmNumber)
+                    .map(row => ({
+                        ...row,
+                        // Ensure tract is always an array even if empty
+                        tract: rows
+                        .filter(row => row.tractNumber)
+                        .map(row => ({
+                            ...row,
+                            clu: rows
+                            .filter(row => row.cluNumber)
+                            .map(row => ({
+                                ...row,
+                                acres: parseFloat(row.acres),
+                                fsaPhysicalLocation: row.fsaPhysicalLocation,
+                            }))
+                        }))
+                    }))
+            })),
+            commodityInfo: commodityForm.map(form => ({
+                ...form,
+                commodityInfoId: 0,
+                fieldNameId: 0,
+                reportQtyAcres: parseFloat(form.reportQtyAcres),
+                commodityCategory: form.commodityCategory,
+                commodityType: form.commodityType,
+                landUseHistory: form.fieldLandUseHistory,
+                irrigationHistory: form.fieldIrrigationHistory,
+                tillageHistory: form.fieldTillageHistory,
+                csafPracticeHistory: form.fieldCsafPracticeHistory,
+                pastCsafPracticeHistory: form.pastCsafPracticeHistory
+            })),
+            farmDetails: FarmDetailsData.map(form => ({
+                farmDetailsId: 0,
+                applicationAcres: parseFloat(form.applicationAcres),
+                totalLandAreaAcres: parseFloat(form.totalLandArea),
+                totalCroplandAcres: parseFloat(form.totalCropland),
+                totalLiveStockAcres: parseFloat(form.totalLiveStock),
+                produceLivestock: form.produceLivestock === 'Yes',
+                livestockType1: form.livestockType1 || null,
+                livestockHead1: parseInt(form.livestockHead1) || null,
+                livestockType2: form.livestockType2 || null,
+                livestockHead2: parseInt(form.livestockHead2) || null,
+                livestockType3: form.livestockType3 || null,
+                livestockHead3: parseInt(form.livestockHead3) || null,
+                totalForestAreaAcres: parseFloat(form.totalForestArea),
+                fsaPhysicalLocation: form.fsaPhysicalLocation,
+                pastCsafPractice: form.pastCSAFPractice || null,
+                farmId: 0
+            }))
+        };
+        
+
+        
+
+        
+
+    const mappedFormData = {
+        ...formData,
+        ccc860File: formData.ccc860File?.name,
+        masterFarmerFile: formData.masterFarmerFile?.name,
+        srNDAFile: formData.srNDAFile?.name,
+        srAgreementFile: formData.srAgreementFile?.name
+    };
+
+    const response = await fetch('http://localhost:8080/api/applications', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            farmerId: farmerId,
+            producerInfo: mappedProducerInfo,
+            applicationDate: new Date().toISOString(),
+            status: 'Start Application'
+        })
+    });
+
+        if (response.ok) {
+            console.log('Application submitted successfully');
+            // Perform any additional actions after successful submission, such as redirecting the user or showing a success message
+        } else {
+            console.error('Failed to submit application');
+            // Handle error response
+        }
+    } catch (error) {
+        console.error('Error submitting application:', error);
+        // Handle fetch error
+    }
+};
+
+
     return (
         <Layout>
             <div className="add-application-container">
@@ -193,7 +297,6 @@ function AddApplication() {
                         setFarmDetailsForm={setFarmDetailsForm}
                         onPrevious={goToPreviousScreen}
                         onNext={goToNextScreen}
-                        // Assuming no next screen after ScreenThree
                     />
                 )}
                 {currentScreen === 4 && (
@@ -203,7 +306,6 @@ function AddApplication() {
                         setFarmDetailsForm={setFarmDetailsForm}
                         onPrevious={goToPreviousScreen}
                         onNext={goToNextScreen}
-                        // Assuming no next screen after ScreenThree
                     />
                 )}
                 {currentScreen === 5 && (
@@ -214,11 +316,8 @@ function AddApplication() {
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
                         onNext={goToNextScreen}
-                        // Assuming no next screen after ScreenThree
                     />
                 )}
-                
-                {/* Add more screens as needed */}
                 {currentScreen === 6 && (
                     <GrowerSurvey
                         FarmDetailsData = {FarmDetailsData}
@@ -229,8 +328,6 @@ function AddApplication() {
                         setFarms={setFarms}
                         onPrevious={goToPreviousScreen}
                         onNext={goToNextScreen}
-
-                        // Assuming no next screen after ScreenThree
                     />
                 )}
 
@@ -243,6 +340,7 @@ function AddApplication() {
                         farmDetailsForm={farmDetailsForm}
                         formData={formData}
                         onPrevious={goToPreviousScreen}
+                        onSubmit={submitApplication}
                     />
                 )}
                 
@@ -251,4 +349,4 @@ function AddApplication() {
     );
 }
 
-export default AddApplication;
+export default React.memo(AddApplication);
