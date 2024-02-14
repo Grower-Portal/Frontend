@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 // import axios from 'axios';
 
 function FarmInformation({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, onPrevious, onNext }) {
 
     
     
-
+    const [totalLandAreaAcres, setTotalLandArea] = useState(null);
     const [farmDetailsRows, setFarmDetailsRows] = useState(farmDetailsForm.length > 0 ? farmDetailsForm : FarmDetailsData); // State to store the farm details rows
     // Handle input changes for a specific row
+    useEffect(() => {
+        // Fetch total land area when the component mounts
+        if (farmDetailsRows.length > 0) {
+            fetchTotalLandArea(farmDetailsRows[0]?.farmNumber); // Fetch for the first farm number
+        }
+    }, [farmDetailsRows]); // Fetch whenever farmDetailsRows change
+
     const handleChange = (e, index) => {
         const updatedFarmDetailsRows = [...farmDetailsRows];
         updatedFarmDetailsRows[index] = {
@@ -17,6 +25,17 @@ function FarmInformation({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, 
         setFarmDetailsRows(updatedFarmDetailsRows);
         setFarmDetailsForm(updatedFarmDetailsRows);
     };
+
+    const fetchTotalLandArea = async (farmNumber) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/getTotalCalculatedAcreageByFarmNumber?farmNumber=${farmNumber}`);
+            setTotalLandArea(response.data); // Set the total land area from the response
+        } catch (error) {
+            console.error('Error fetching total land area:', error);
+        }
+    };
+
+    
 
     console.log("farmDetailsRows", farmDetailsRows);
     // Handle Next button click
@@ -35,6 +54,7 @@ function FarmInformation({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, 
                         <th>Total Land Area (Acres)</th>
                         <th>Total Cropland (Acres)</th>
                         <th>Do you produce livestock on this Farm?</th>
+                        <th>Total Live stock Area (Acres)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,23 +73,19 @@ function FarmInformation({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, 
                                 />
                             </td>
                             <td>
-                                <select
-                                    name="totalLandArea"
-                                    value={farm.totalLandArea}
+                                <input
+                                    type='number'
+                                    name="totalLandAreaAcres"
+                                    value={farm.totalLandAreaAcres = totalLandAreaAcres}
                                     onChange={(e) => handleChange(e, index)}
-                                >
-                                    <option value="">Select Total Land Area</option>
-                                    <option value="Less than 1 acre">Less than 1 acre</option>
-                                    <option value="1 to 9 acres">1 to 9 acres</option>
-                                    <option value="10 to 49 acres">10 to 49 acres</option>
-                                    {/* Add other options here */}
-                                </select>
+                                    placeholder="Enter Total Land Area (Acres)"
+                                />
                             </td>
                             <td>
                                 <input
                                     type="number"
-                                    name="totalCropland"
-                                    value={farm.totalCropland}
+                                    name="totalCroplandAcres"
+                                    value={farm.totalCroplandAcres}
                                     onChange={(e) => handleChange(e, index)}
                                     placeholder="Enter Total Cropland"
                                 />
@@ -83,6 +99,15 @@ function FarmInformation({FarmDetailsData, farmDetailsForm, setFarmDetailsForm, 
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    name="totalLiveStockAcres"
+                                    value={farm.totalLiveStockAcres}
+                                    onChange={(e) => handleChange(e, index)}
+                                    placeholder="Enter Total Livestock Area (Acres)"
+                                />
                             </td>
                         </tr>
                     ))}

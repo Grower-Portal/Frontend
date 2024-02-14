@@ -29,7 +29,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         <div className="form-screen">
       <h1>Producer Information</h1>
       <div className="form-group">
-        <label>Producer Name (Authorized Signatory Official):</label>
+        <label>Producer Name (Authorized Signatory Official)</label>
         <input
           type="text"
           value={producerInfo.producerName}
@@ -37,7 +37,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         />
       </div>
       <div className="form-group">
-        <label>Producer Entity Name (Per 578 Producer Print):</label>
+        <label>Producer Entity Name (Per 578 Producer Print)</label>
         <input
           type="text"
           value={producerInfo.producerEntityName}
@@ -45,7 +45,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         />
       </div>
       <div className="form-group">
-        <label>County of Residence (Must match FSA 578 Producer Print):</label>
+        <label>County of Residence</label>
         <input
           type="text"
           value={producerInfo.countyOfResidence}
@@ -53,7 +53,7 @@ function ProducerInformation({ producerInfo,  setProducerInfo, onNext }) {
         />
       </div>
       <div className="form-group">
-        <label>Producer Address (Mailing Address):</label>
+        <label>Producer Address (Mailing Address)</label>
         <input
           type="text"
           value={producerInfo.producerAddress}

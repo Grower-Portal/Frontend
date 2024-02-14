@@ -14,9 +14,12 @@ import '../../styles/AddApplication.css';
 function AddApplication() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const farmerId = queryParams.get("farmerId");
+    const [farmerId, setFarmerId] = useState(queryParams.get("farmerId"));
+    const [applicationID, setApplicationID] = useState(0); // Application ID
+    const [applicationDate, setApplicationDate] = useState(queryParams.get("applicationDate"));
+    const [status, setStatus] = useState(queryParams.get("status"));
     const [currentScreen, setCurrentScreen] = useState(0); // Start from ScreenZero
-
+    
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             event.preventDefault();
@@ -89,10 +92,10 @@ function AddApplication() {
             reportQtyAcres: field.acres.toFixed(3),
             commodityCategory: '',
             commodityType: 'Rice',
-            fieldLandUseHistory: '',
-            fieldIrrigationHistory: '',
-            fieldTillageHistory: '',
-            fieldCsafPracticeHistory: '',
+            landUseHistory: '',
+            irrigationHistory: '',
+            tillageHistory: '',
+            csafPracticeHistory: '',
             pastCsafPracticeHistory: ''
         }));
 
@@ -102,48 +105,56 @@ function AddApplication() {
     
     // State to store commodity data
     const [commodityData, setCommodityData] = useState([]);
-
-    const FarmDetailsData = farmNumberToFieldNameMapping.map((farm) => ({
+    const farmNumbersSet = new Set();
+    const uniqueFarmNumberToFieldNameMapping = [];
+    farmNumberToFieldNameMapping.forEach((farm) => {
+        if (!farmNumbersSet.has(farm.farmNumber)) {
+            uniqueFarmNumberToFieldNameMapping.push(farm);
+            farmNumbersSet.add(farm.farmNumber);
+        }
+    });
+    const FarmDetailsData = uniqueFarmNumberToFieldNameMapping.map((farm) => ({
         farmNumber: farm.farmNumber,
-        applicationAcres: farm.acres,
-        totalCropland: '',
-        totalLandArea: '',
+        applicationAcres: parseFloat(farm.acres),
+        totalCroplandAcres: '',
+        totalLandAreaAcres: '',
         produceLivestock: 'No',
+        totalLiveStockAcres: '',
         livestockType1: '',
         livestockHead1: '',
         livestockType2: '',
         livestockHead2: '',
         livestockType3: '',
         livestockHead3: '',
-        totalForestArea: '',
+        totalForestAreaAcres: '',
         fsaPhysicalLocation: farm.fsaPhysicalLocation,
-        pastCSAFPractice: '',
-        uploadedDocument: null
+        pastCsafPractice: '',
+        transitioningToUsdaCertified: '',
     }));
 
     const [formData, setFormData] = useState({
-        controllingMembers: '',
-        ccc860Certification: '',
-        ccc860Members: '',
-        participatedInLSUMasterFarmer: '',
-        lSUMasterFarmerParticipants: '',
-        highestDegreeOfParticipation: '',
+        controllingMembersCount: '',
+        hasCCC860Certification: '',
+        membersContributingToCCC860: '',
+        hasParticipatedInLSUMasterFarmerProgram: '',
+        membersParticipatedInLSUMasterFarmerProgram: '',
+        highestDegreeOfParticipationInMasterFarmerProgram: '',
         yearsOfExperience: '',
         farmedRiceIn2023: '',
-        riceAcres2023: '',
-        firstYearFarmingRice: '',
-        lastYearFarmedRice: '',
-        riceAcresLastYear: '',
-        incomePercentage: '',
-        participateInSDDStudy: '',
-        agreementWithSupremeRice: '',
-        understandingOfFundingProhibition: '',
-        agreementOnAWDorSDDPayment: '',
-        authorityToCompleteApplication: '',
-        ccc860File: null,
-        masterFarmerFile: null,
-        srNDAFile: null,
-        srAgreementFile: null
+        riceAcresFarmedIn2023: '',
+        isFirstYearFarmingRice: '',
+        mostRecentYearFarmingRice: '',
+        riceAcresFarmedInMostRecentYear: '',
+        percentageOfIncomeFromOnFarmActivities: '',
+        volunteersForEconomicAnalysis: '',
+        understandsContractWithSupremeRice: '',
+        understandsProhibitionOfDoubleFunding: '',
+        understandsPaymentFromSupreme: '',
+        hasAuthorityToCompleteApplication: 'no',
+        ccc860Attachment: null,
+        masterFarmerParticipationAttachment: null,
+        srNDAAttachment: null,
+        srAgreementAttachment: null
       });
 
 
@@ -161,102 +172,155 @@ function AddApplication() {
     console.log("formData", formData);
 
     // Function to submit the application data
-const submitApplication = async () => {
-    try {
-        const mappedProducerInfo = {
-            ...producerInfo,
-            fieldName: farmNumberToFieldNameMapping.map(field => ({
-                ...field,
-                farm: rows
-                    .filter(row => row.farmNumber === field.farmNumber)
-                    .map(row => ({
-                        ...row,
-                        // Ensure tract is always an array even if empty
-                        tract: rows
-                        .filter(row => row.tractNumber)
-                        .map(row => ({
-                            ...row,
-                            clu: rows
-                            .filter(row => row.cluNumber)
-                            .map(row => ({
-                                ...row,
-                                acres: parseFloat(row.acres),
-                                fsaPhysicalLocation: row.fsaPhysicalLocation,
-                            }))
-                        }))
-                    }))
-            })),
-            commodityInfo: commodityForm.map(form => ({
-                ...form,
-                commodityInfoId: 0,
-                fieldNameId: 0,
-                reportQtyAcres: parseFloat(form.reportQtyAcres),
-                commodityCategory: form.commodityCategory,
-                commodityType: form.commodityType,
-                landUseHistory: form.fieldLandUseHistory,
-                irrigationHistory: form.fieldIrrigationHistory,
-                tillageHistory: form.fieldTillageHistory,
-                csafPracticeHistory: form.fieldCsafPracticeHistory,
-                pastCsafPracticeHistory: form.pastCsafPracticeHistory
-            })),
-            farmDetails: FarmDetailsData.map(form => ({
-                farmDetailsId: 0,
-                applicationAcres: parseFloat(form.applicationAcres),
-                totalLandAreaAcres: parseFloat(form.totalLandArea),
-                totalCroplandAcres: parseFloat(form.totalCropland),
-                totalLiveStockAcres: parseFloat(form.totalLiveStock),
-                produceLivestock: form.produceLivestock === 'Yes',
-                livestockType1: form.livestockType1 || null,
-                livestockHead1: parseInt(form.livestockHead1) || null,
-                livestockType2: form.livestockType2 || null,
-                livestockHead2: parseInt(form.livestockHead2) || null,
-                livestockType3: form.livestockType3 || null,
-                livestockHead3: parseInt(form.livestockHead3) || null,
-                totalForestAreaAcres: parseFloat(form.totalForestArea),
-                fsaPhysicalLocation: form.fsaPhysicalLocation,
-                pastCsafPractice: form.pastCSAFPractice || null,
-                farmId: 0
-            }))
-        };
-        
-
-        
-
-        
-
-    const mappedFormData = {
-        ...formData,
-        ccc860File: formData.ccc860File?.name,
-        masterFarmerFile: formData.masterFarmerFile?.name,
-        srNDAFile: formData.srNDAFile?.name,
-        srAgreementFile: formData.srAgreementFile?.name
+    const submitApplication = async () => {
+        try {
+            // Aggregate data for each fieldName
+            
+                // Find all tracts and CLUs for each farmNumber related to the current fieldName
+                const farmEntries = uniqueFarmNumberToFieldNameMapping.map(form => {
+                    const uniqueTractNumbers = new Set();
+        const tracts = rows
+            .filter(row => row.farmNumber === form.farmNumber)
+            .filter(row => {
+                if (!uniqueTractNumbers.has(row.tractNumber)) {
+                    uniqueTractNumbers.add(row.tractNumber);
+                    return true;
+                }
+                return false;
+            })
+            .map(row => {
+                const uniqueCluNumbers = new Set();
+                const clus = rows
+                    .filter(innerRow => innerRow.tractNumber === row.tractNumber)
+                    .filter(innerRow => {
+                        if (!uniqueCluNumbers.has(innerRow.clus[0]?.fieldClu)) {
+                            uniqueCluNumbers.add(innerRow.clus[0]?.fieldClu);
+                            return true;
+                        }
+                        return false;
+                    })
+                    .map(cluRow => ({
+                        cluId: 0,
+                        cluNumber: cluRow.clus[0].fieldClu,
+                        acres: cluRow.clus[0].acres,
+                        fsaPhysicalLocation: cluRow.clus[0].fsaPhysicalLocation,
+                        tractId: 0
+                    }));
+                            return { tractId: 0, tractNumber: row.tractNumber, farmId: 0, clu: clus};
+                        });
+                    const fieldNameEntries = commodityForm.filter(field => field.farmNumber === form.farmNumber).map(field =>{
+                        return {
+                            fieldName: field.fieldName,
+                            reportQtyAcres: field.reportQtyAcres,
+                            commodityInfo: commodityForm.find(commodity => commodity.farmNumber === form.farmNumber) || {}
+                        }
+                    });
+    
+                    return {
+                        farmId: 0,
+                        farmNumber: form.farmNumber,
+                        tract: tracts,
+                        fieldName: fieldNameEntries,
+                        farmDetails: farmDetailsForm.find(details => details.farmNumber === form.farmNumber) || {}
+                    };
+                });
+    
+            const mappedProducerInfo = {
+                ...producerInfo,
+                farm: farmEntries
+            };
+    
+            // Construct the payload
+            const payload = {
+                applicationId: 0,
+                farmerId: farmerId, // Assuming a static value for demonstration; adjust as necessary.
+                producerInfo: mappedProducerInfo,
+                applicationDate: applicationDate, // Example date; adjust as necessary.
+                status: 'Submitted'
+            };
+    
+            // Send the request
+            const response = await fetch('http://localhost:8080/api/applications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+    
+            if (response.ok) {
+                // const applicationId = response.data.applicationId;
+                //const responseData = await response.json(); // Parse JSON response
+                const responseData = await response.json(); // Parse JSON response
+                const producerInfoId = responseData.producerInfo.producerInfoId; // Extract producerInfoId
+                console.log('producerInfoId:', producerInfoId);
+                console.log('Application submitted successfully');
+                
+                try{
+                    const payload1 = {
+                        producerInfoId,
+                        ...formData
+                        
+                    }
+                    const response1 = await fetch('http://localhost:8080//api/survey', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload1)
+                    });
+                    if (response1.ok) {
+                        console.log('Survey submitted successfully');
+                    } else {
+                        console.error('Failed to submit Survey');
+                    }
+                } catch (error) {
+                    console.error('Error submitting Survey:', error);
+                }
+            } else {
+                console.error('Failed to submit application');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
+        }
     };
 
-    const response = await fetch('http://localhost:8080/api/applications', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            farmerId: farmerId,
-            producerInfo: mappedProducerInfo,
-            applicationDate: new Date().toISOString(),
-            status: 'Start Application'
-        })
-    });
-
-        if (response.ok) {
-            console.log('Application submitted successfully');
-            // Perform any additional actions after successful submission, such as redirecting the user or showing a success message
-        } else {
-            console.error('Failed to submit application');
-            // Handle error response
+    useEffect(() => {
+        // Load data from localStorage
+        const savedProgress = JSON.parse(localStorage.getItem('applicationProgress'));
+        if (savedProgress) {
+            setFarmerId(savedProgress.farmerId);
+            setApplicationID(savedProgress.applicationID);
+            setApplicationDate(savedProgress.applicationDate);
+            setStatus(savedProgress.status);
+            setCurrentScreen(savedProgress.currentScreen);
+            setProducerInfo(savedProgress.producerInfo);
+            setRows(savedProgress.rows);
+            setFarms(savedProgress.farms);
+            setCommodityForm(savedProgress.commodityForm);
+            setFarmDetailsForm(savedProgress.farmDetailsForm);
+            setFormData(savedProgress.formData);
         }
-    } catch (error) {
-        console.error('Error submitting application:', error);
-        // Handle fetch error
-    }
-};
+    }, []);
+
+    useEffect(() => {
+        // Save progress to localStorage
+        const progressToSave = {
+            farmerId,
+            applicationID,
+            applicationDate,
+            status,
+            currentScreen,
+            producerInfo,
+            rows,
+            farms,
+            commodityForm,
+            farmDetailsForm,
+            formData
+        };
+        localStorage.setItem('applicationProgress', JSON.stringify(progressToSave));
+    }, [farmerId, applicationID, applicationDate, status, currentScreen, producerInfo, rows, farms, commodityForm, farmDetailsForm, formData]);
+    
 
 
     return (

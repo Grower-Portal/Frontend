@@ -11,12 +11,12 @@ function Menu({ menuOpen, toggleMenu }) {
                     <li><Link to="/StepsToFollow" onClick={toggleMenu}>Steps to Follow</Link></li>
                     <li><Link to="/ApplicationDashboard" onClick={toggleMenu}>Dashboard</Link></li>
                     {/* <li><Link to="/AddApplication" onClick={toggleMenu}>Add Application</Link></li> */}
-                    <li><Link to="/ImageUpload" onClick={toggleMenu}>Upload Photo</Link></li>
+                    {/* <li><Link to="/ImageUpload" onClick={toggleMenu}>Upload Photo</Link></li> */}
                     <li><Link to="/About" onClick={toggleMenu}>About</Link></li>
                     <li><Link to="/ContactUs" onClick={toggleMenu}>Contact Us</Link></li>
-                    <li><Link to="/Report" onClick={toggleMenu}>Report</Link></li>
+                    {/* <li><Link to="/Report" onClick={toggleMenu}>Report</Link></li> */}
                     <li><Link to="/UserInformation" onClick={toggleMenu}>User Information</Link></li>
-                    <li><Link to="/SensorData" onClick={toggleMenu}>Sensor Data</Link></li>
+                    {/* <li><Link to="/SensorData" onClick={toggleMenu}>Sensor Data</Link></li> */}
                 </ul>
             </div>
         </div>

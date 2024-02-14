@@ -103,8 +103,8 @@ function CommodityInformation({CommodityData, commodityForm, setCommodityForm, o
                             </td>
                             <td>
                                 <select 
-                                    name='fieldLandUseHistory'
-                                    value={row.fieldLandUseHistory}
+                                    name='landUseHistory'
+                                    value={row.landUseHistory}
                                     onChange={(e) => handleChange(e, index)}>
                                     <option value="Crop land">Crop land</option>
                                     {/* Additional options as needed */}
@@ -117,8 +117,8 @@ function CommodityInformation({CommodityData, commodityForm, setCommodityForm, o
                             </td>
                             <td>
                                 <select 
-                                    name='fieldIrrigationHistory'
-                                    value={row.fieldIrrigationHistory}
+                                    name='irrigationHistory'
+                                    value={row.irrigationHistory}
                                     onChange={(e) => handleChange(e, index)}>
                                     {/* Additional options as needed */}
                                     <option value="No Irrigation">No Irrigation</option>
@@ -131,8 +131,8 @@ function CommodityInformation({CommodityData, commodityForm, setCommodityForm, o
                             </td>
                             <td>
                                 <select 
-                                    name='fieldTillageHistory'
-                                    value={row.fieldTillageHistory}
+                                    name='tillageHistory'
+                                    value={row.tillageHistory}
                                     onChange={(e) => handleChange(e, index)}>
                                     <option value="Conventional, Inversion">Conventional, Inversion</option>
                                     <option value="Conventional, vertical">Inversion, vertical</option>
@@ -145,8 +145,8 @@ function CommodityInformation({CommodityData, commodityForm, setCommodityForm, o
                             </td>
                             <td>
                                 <select 
-                                    name='fieldCsafPracticeHistory'
-                                    value={row.fieldCsafPracticeHistory}
+                                    name='csafPracticeHistory'
+                                    value={row.csafPracticeHistory}
                                     onChange={(e) => handleChange(e, index)}>
                                     <option value="yes">yes</option>
                                     <option value="no">no</option>

@@ -31,6 +31,7 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
             <th>Total Forest Area (Acres)</th>
             <th>FSA Physical Location</th>
             <th>Past CSAF Practice</th>
+            <th>Is Any Portion of the Farm Currently or Transitioning to USDA-Certified Organic?</th>
           </tr>
         </thead>
         <tbody>
@@ -40,8 +41,8 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
               <td>
                 <input
                   type="text"
-                  name={`totalForestArea`}
-                  value={farm.totalForestArea}
+                  name={`totalForestAreaAcres`}
+                  value={farm.totalForestAreaAcres}
                   onChange={(e) => handleChange(e, index)}
                 />
               </td>
@@ -55,8 +56,8 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
               </td>
               <td>
                 <select
-                  name={`pastCSAFPractice`}
-                  value={farm.pastCSAFPractice}
+                  name={`pastCsafPractice`}
+                  value={farm.pastCsafPractice}
                   onChange={(e) => handleChange(e, index)}
                 >
                   {/* Options here */}
@@ -68,6 +69,19 @@ function ForestInformation({ FarmDetailsData, farmDetailsForm, setFarmDetailsFor
                     <option value="Used on more than 75% of operation">Used on more than 75% of operation</option>
                 </select>
               </td>
+              <td>
+                <select
+                  name={`transitioningToUsdaCertified`}
+                  value={farm.transitioningToUsdaCertified}
+                  onChange={(e) => handleChange(e, index)}
+                >
+                  {/* Options here */}
+                  <option value="">Select an option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                  <option value="I don't know">I don't know</option>
+                </select>
+                </td>
             </tr>
           ))}
         </tbody>

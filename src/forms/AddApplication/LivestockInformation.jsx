@@ -46,6 +46,7 @@ function LivestockInformation({ FarmDetailsData, farmDetailsForm, setFarmDetails
             <tr key={index}>
               <td>{livestockRows[index]?.farmNumber}</td>
               <td>
+              {farm.totalLiveStockAcres !== "0" && (
                 <select
                   name={`livestockType1`}
                   value={farm.livestockType1}
@@ -60,17 +61,21 @@ function LivestockInformation({ FarmDetailsData, farmDetailsForm, setFarmDetails
                   <option value="Poultry">Poultry</option>
                   <option value="Other">Other</option>
                 </select>
+                )}
               </td>
+              
               <td>
+              {farm.totalLiveStockAcres !== "0" && (
                 <input
                   type="text"
                   name={`livestockHead1`}
                   value={farm.livestockHead1}
                   onChange={(e) => handleChange(e, index)}
                 />
+                )}
               </td>
               <td>
-                {farm.totalLivestockAreaAcres === 0 ? null : (
+                {(farm.totalLiveStockAcres !== 0 && farm.livestockType1) && (
                   <select
                     name={`livestockType2`}
                     value={farm.livestockType2}
@@ -102,7 +107,7 @@ function LivestockInformation({ FarmDetailsData, farmDetailsForm, setFarmDetails
                 )}
               </td>
               <td>
-                {farm.totalLivestockAreaAcres === 0 ? null : (
+                {(farm.totalLiveStockAcres !== "0" && farm.livestockType2) && (
                   <input
                     type="text"
                     name={`livestockHead2`}

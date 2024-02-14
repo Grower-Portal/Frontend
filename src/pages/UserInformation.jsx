@@ -5,22 +5,22 @@ import Layout from '../components/Layout';
 function UserInformation() {
 
     const user = {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        phone: "+1 123-456-7890",
-        address: "123 Main Street, City, Country",
-        dob: "January 1, 1990"
+        Name: localStorage.getItem('firstName') + " " + localStorage.getItem('lastName'), 
+        email: localStorage.getItem('email'),
+        phone: localStorage.getItem('phone'),
+        address: localStorage.getItem('address'),
+        dob: localStorage.getItem('dob')
     };
 
     return (
         <Layout>
         <div id="user-info-container">
             <h1>User Information</h1>
-            <p className="user-attribute">Name: {user.name}</p>
-            <p className="user-attribute">Email: {user.email}</p>
-            <p className="user-attribute">Phone Number: {user.phone}</p>
-            <p className="user-attribute">Address: {user.address}</p>
-            <p className="user-attribute">Date of Birth: {user.dob}</p>
+            <p className="user-attribute">Name: {user.Name || "Not Found"}</p>
+            <p className="user-attribute">Email: {user.email || "Not Found"}</p>
+            <p className="user-attribute">Phone Number: {user.phone  || "Not Found"}</p>
+            <p className="user-attribute">Address: {user.address || "Not Found"}</p>
+            <p className="user-attribute">Date of Birth: {user.dob || "Not Found"}</p>
         </div>
         </Layout>
     );

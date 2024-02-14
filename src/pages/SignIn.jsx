@@ -28,13 +28,16 @@ function SignIn() {
                 if (response.data.farmer && response.data.jwt) {
                     // Authentication was successful
                     // Store the JWT token securely (e.g., in localStorage)
-                    const { farmer_ID, firstName, lastName, email } = response.data.farmer;
+                    const { farmer_ID, firstName, lastName, email, address, phone, dob } = response.data.farmer;
       
                     // Store user information in localStorage
                     localStorage.setItem('farmerId', farmer_ID);
                     localStorage.setItem('firstName', firstName);
                     localStorage.setItem('lastName', lastName);
                     localStorage.setItem('email', email);
+                    localStorage.setItem('address', address);
+                    localStorage.setItem('phone', phone);
+                    localStorage.setItem('dob', dob);
                     localStorage.setItem('token', response.data.jwt);
 
                     // Redirect the user to the desired page
